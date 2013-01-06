@@ -1,2 +1,0 @@
-This log contains debugging and error messages from the last run.
-quit
