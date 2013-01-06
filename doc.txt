@@ -1,0 +1,23 @@
+Mutagion - a pyweek 13 entry
+By - saluk
+Background - a new megavirus is about to ravage the USA
+Objective - save as much of the population as possible
+
+Controls - Click on cities to see info about them.
+The city panel will list people who are reporting symptoms,
+as well as showing a list of actions to take in the city.
+
+Find who really has the virus and not just a common cold,
+and fight back! Use advertising to gain influence and shut
+down well connected cities, hire researchers to discover
+cures for the virus, as it will keep mutating, and hire
+doctors to administer the cures.
+
+When the virus has either killed its food supply, or been
+wiped out, you will be presented with a score.
+
+How much of the population can you save?
+
+
+music:
+  glow - http://ccmixter.org/files/gurdonark/21585
