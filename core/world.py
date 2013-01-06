@@ -13,6 +13,7 @@ class World(object):
         self.engine = engine
         self.objects = []
         self.sprites = []
+        self.offset = [0,0]    #Offset for rendering
         self.start()
     def add(self,o):
         """Add an object to the scene"""
@@ -30,7 +31,7 @@ class World(object):
                 self.sprites.append(o)
     def draw(self):
         """Iterate sprites and draw them"""
-        [s.draw(self.engine) for s in self.sprites]
+        [s.draw(self.engine,self.offset) for s in self.sprites]
     def input(self,controller):
         """As controller gets functions to check the state of things, input
         can be put here"""
@@ -43,19 +44,19 @@ class Text(Agent):
     def render(self,engine):
         if not self.surface:
             self.surface = engine.font.render(self.text,1,[0,255,0])
-    def draw(self,engine):
+    def draw(self,engine,offset=[0,0]):
         if not self.surface:
             self.render(engine)
-        engine.surface.blit(self.surface,self.pos)
+        super(Text,self).draw(engine,offset)
 
 class Player(Agent):
     def init(self):
         self.facing = -1
-    def draw(self,engine):
+    def draw(self,engine,offset=[0,0]):
         self.surface = self.graphics
         if self.facing<0:
             self.surface = pygame.transform.flip(self.surface,1,0)
-        engine.surface.blit(self.surface,[self.pos[0]-self.hotspot[0],self.pos[1]-self.hotspot[1]])
+        super(Player,self).draw(engine,offset)
     def left(self):
         self.facing = -1
         self.pos[0]-=2
@@ -83,36 +84,36 @@ class Tilemap(Agent):
         from tiledtmxloader import tmxreader
         self.raw_map = tmxreader.TileMapParser().parse_decode(self.mapfile)
 
-        self.tileset = pygame.image.load(self.raw_map.tile_sets[0].images[0].source).convert_alpha()
-        self.tileset_list = []
-        x = 0
-        y = 0
-        #while y<self.raw_map.tile_sets[0].images[0].height:
-        for i in range(256):
-            self.tileset_list.append(self.tileset.subsurface([[x*32,y*32],[32,32]]))
-            x+=1
-            if x*32>=int(self.raw_map.tile_sets[0].images[0].width):
-                x=0
-                y+=1
+        self.tileset_list = [None]
+        for tileset in self.raw_map.tile_sets:
+            tileset = pygame.image.load(tileset.images[0].source).convert_alpha()
+            x = 0
+            y = 0
+            while y*32<tileset.get_height():
+                self.tileset_list.append(tileset.subsurface([[x*32,y*32],[32,32]]))
+                x+=1
+                if x*32>=tileset.get_width():
+                    x=0
+                    y+=1
 
         self.map = []
         row = []
         for layer in self.raw_map.layers:
+            maplayer = []
             x=y=0
             for ti in layer.decoded_content:
                 tile = Tile()
-                tile.index = ti-1
+                tile.index = ti
                 tile.surface = self.tileset_list[tile.index]
-                if tile.index==-1:
-                    tile.visible = False
                 tile.pos = [x*32,y*32]
                 row.append(tile)
                 x+=1
                 if x>=layer.width:
                     x=0
                     y+=1
-                    self.map.append(row)
+                    maplayer.append(row)
                     row = []
+            self.map.append(maplayer)
     def collide(self,agent):
         top = agent.pos[1]//32
         left = agent.pos[0]//32
@@ -126,24 +127,30 @@ class Tilemap(Agent):
         for point in points:
             if self.map[point[1]][point[0]].index>0:
                 return 1
-    def draw(self,engine):
-        for row in self.map:
-            for tile in row:
-                tile.draw(engine)
-        #engine.surface.blit(self.surface,[self.pos[0]-self.hotspot[0],self.pos[1]-self.hotspot[1]])
+    def draw(self,engine,offset):
+        for layer in self.map:
+            for row in layer:
+                for tile in row:
+                    tile.draw(engine,offset)
 
 class GameWorld(World):
     def start(self):
         self.map = Tilemap()
         self.map.load("dat/castle.tmx")
+        
+        self.camera = self.offset
+        self.scroll_speed = 5
 
         self.add(self.map)
     def input(self,controller):
-        return
         if controller.left:
-            self.player.left()
+            self.camera[0]-=self.scroll_speed
         if controller.right:
-            self.player.right()
+            self.camera[0]+=self.scroll_speed
+        if controller.up:
+            self.camera[1]-=self.scroll_speed
+        if controller.down:
+            self.camera[1]+=self.scroll_speed
     def update(self):
         super(GameWorld,self).update()
 

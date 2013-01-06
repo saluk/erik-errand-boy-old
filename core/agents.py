@@ -34,6 +34,7 @@ class Agent(object):
         self.visible = True
         self.gfd = {}
         self.gft = {}
+        self.layer = 0
         self.init()
     def init(self):
         pass
@@ -49,11 +50,11 @@ class Agent(object):
         if self.rotation_on_rot and self.surface:
             ang = math.atan2(-self.rot[1],self.rot[0])*180.0/math.pi
             self.surface = pygame.transform.rotate(self.graphics,ang)
-    def draw(self,engine):
+    def draw(self,engine,offset=[0,0]):
         if not self.surface and self.art:
             self.load()
-        if self.visible:
-            engine.surface.blit(self.surface,[self.pos[0]-self.hotspot[0],self.pos[1]-self.hotspot[1]])
+        if self.visible and self.surface:
+            engine.surface.blit(self.surface,[self.pos[0]-self.hotspot[0]-offset[0],self.pos[1]-self.hotspot[1]-offset[1]])
     def rect(self):
         if not self.surface:
             return pygame.Rect([[0,0],[0,0]])

@@ -59,8 +59,16 @@ class Controller:
                 self.left = 1
             elif e.key == pygame.K_RIGHT:
                 self.right = 1
+            if e.key == pygame.K_UP:
+                self.up = 1
+            elif e.key == pygame.K_DOWN:
+                self.down = 1
         elif e.type == pygame.KEYUP:
             if e.key == pygame.K_LEFT:
                 self.left = 0
             elif e.key == pygame.K_RIGHT:
                 self.right = 0
+            if e.key == pygame.K_UP:
+                self.up = 0
+            elif e.key == pygame.K_DOWN:
+                self.down = 0
