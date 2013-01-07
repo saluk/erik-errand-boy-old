@@ -51,26 +51,71 @@ class Text(Agent):
 
 class Player(Agent):
     def init(self):
-        self.facing = -1
+        self.hotspot = [16,32]
+        self.facing = [-1,0]
+        self.next_frame = 10
+        self.animdelay = 10
+        self.frame = 0
+        self.anim = None
+        self.animating = False
+    def load(self,spritesheet):
+        super(Player,self).load(spritesheet)
+        self.anims = {}
+        order = ["down","left","right","up"]
+        for y in range(4):
+            frames = []
+            for x in range(4):
+                frames.append(self.graphics.subsurface([[x*32,y*48],[32,48]]))
+            self.anims[order[y]] = frames
     def draw(self,engine,offset=[0,0]):
-        self.surface = self.graphics
-        if self.facing<0:
-            self.surface = pygame.transform.flip(self.surface,1,0)
         super(Player,self).draw(engine,offset)
+    def idle(self):
+        self.animating = False
     def left(self):
-        self.facing = -1
+        self.facing = [-1,0]
         self.pos[0]-=2
-        if self.map.collide(self):
-            self.pos[0]+=2
+        self.animating = True
     def right(self):
-        self.facing = 1
+        self.facing = [1,0]
         self.pos[0]+=2
-        if self.map.collide(self):
-            self.pos[0]-=2
+        self.animating = True
+    def up(self):
+        self.facing = [0,-1]
+        self.pos[1]-=2
+        self.animating = True
+    def down(self):
+        self.facing = [0,1]
+        self.pos[1]+=2
+        self.animating = True
+    def set_anim(self,anim):
+        self.anim = anim
+        self.frame = 0
+        self.next_frame = self.animdelay
+        self.set_animation_frame()
+    def set_animation_frame(self):
+        anim = self.anims[self.anim]
+        if self.frame>=len(anim):
+            self.frame = 0
+        self.surface = anim[self.frame]
     def update(self,dt):
-        self.pos[1]+=1
-        if self.map.collide(self):
-            self.pos[1]-=1
+        if self.facing[0]<0:
+            anim = "left"
+        elif self.facing[0]>0:
+            anim = "right"
+        elif self.facing[1]<0:
+            anim = "up"
+        elif self.facing[1]>0:
+            anim = "down"
+        else:
+            anim = self.anim
+        if anim!=self.anim:
+            self.set_anim(anim)
+        if self.animating:
+            self.next_frame -= 1
+        if self.next_frame<=0:
+            self.next_frame = self.animdelay
+            self.frame += 1
+            self.set_animation_frame()
 
 class Tile(Agent):
     def init(self):
@@ -138,21 +183,47 @@ class GameWorld(World):
         self.map = Tilemap()
         self.map.load("dat/castle.tmx")
         
+        self.player = Player()
+        self.player.load("art/sprites/weddingguy03.png")
+        self.player.pos = [11*32,15*32]
+        
         self.camera = self.offset
+        self.camera_focus = self.player
         self.scroll_speed = 5
 
         self.add(self.map)
+        self.add(self.player)
     def input(self,controller):
+        self.player.idle()
         if controller.left:
-            self.camera[0]-=self.scroll_speed
+            self.player.left()
         if controller.right:
-            self.camera[0]+=self.scroll_speed
+            self.player.right()
         if controller.up:
-            self.camera[1]-=self.scroll_speed
+            self.player.up()
         if controller.down:
-            self.camera[1]+=self.scroll_speed
+            self.player.down()
+        
+        #~ if controller.left:
+            #~ self.camera[0]-=self.scroll_speed
+        #~ if controller.right:
+            #~ self.camera[0]+=self.scroll_speed
+        #~ if controller.up:
+            #~ self.camera[1]-=self.scroll_speed
+        #~ if controller.down:
+            #~ self.camera[1]+=self.scroll_speed
     def update(self):
         super(GameWorld,self).update()
+        self.focus_camera()
+        
+    def focus_camera(self):
+        if not self.camera_focus:
+            return
+        self.camera[:] = [self.camera_focus.pos[0]-5*32,self.camera_focus.pos[1]-4*32]
+        if self.camera[0]<0:
+            self.camera[0] = 0
+        if self.camera[1]<0:
+            self.camera[1] = 0
 
 def make_world(engine):
     """This makes the starting world"""

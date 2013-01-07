@@ -20,8 +20,8 @@ class Engine:
         self.swidth = 640
         self.sheight = 480
         #The interactive width, what resolution the game is actually rendered at
-        self.iwidth = 640
-        self.iheight = 480
+        self.iwidth = 320
+        self.iheight = 240
         self.window = None   #The window is the actual window
         self.surface = None   #The surface is what will be displayed, most of the time draw to this
         self.blank = None
