@@ -78,24 +78,22 @@ class Player(Agent):
         self.animating = False
         self.vector = [0,0]
     def walk(self):
-        bounce = 0
+        moved = False
         if self.vector[0]:
-            bounce += 1
             self.pos[0]+=self.vector[0]*self.walk_speed
             if self.map.collide(self):
                 self.pos[0]-=self.vector[0]*self.walk_speed
-                bounce -= 1
             else:
                 self.facing = [self.vector[0],0]
+                moved = True
         if self.vector[1]:
-            bounce += 1
             self.pos[1]+=self.vector[1]*self.walk_speed
             if self.map.collide(self):
                 self.pos[1]-=self.vector[1]*self.walk_speed
-                bounce -= 1
             else:
                 self.facing = [0,self.vector[1]]
-        if bounce:
+                moved = True
+        if moved:
             self.animating = True
     def left(self):
         self.facing = [-1,0]
@@ -120,6 +118,9 @@ class Player(Agent):
             self.frame = 0
         self.surface = anim[self.frame]
     def update(self,dt):
+        if self.vector[0] or self.vector[1]:
+            self.walk()
+            
         if self.facing[0]<0:
             anim = "left"
         elif self.facing[0]>0:
@@ -138,9 +139,6 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
-            
-        if self.vector[0] or self.vector[1]:
-            self.walk()
 
 class Tile(Agent):
     def init(self):
@@ -223,7 +221,7 @@ class GameWorld(World):
 
         self.add(self.map)
 
-        for i in range(5):
+        for i in range(1):
             self.player = Player()
             art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
             f = random.choice(art)
