@@ -19,6 +19,7 @@ class World(object):
     def add(self,o):
         """Add an object to the scene"""
         self.objects.append(o)
+        o.world = self
     def start(self):
         """Code that runs when a world starts, base world
         doesn't need to do anything"""
@@ -56,11 +57,12 @@ class Player(Agent):
         self.hotspot = [16,32]
         self.facing = [-1,0]
         self.next_frame = 10
-        self.animdelay = 10
+        self.animdelay = 5
         self.frame = 0
         self.anim = None
         self.animating = False
-        self.walk_speed = 4
+        self.walk_speed = 2
+        self.vector = [0,0]
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -74,22 +76,39 @@ class Player(Agent):
         super(Player,self).draw(engine,offset)
     def idle(self):
         self.animating = False
+        self.vector = [0,0]
+    def walk(self):
+        bounce = 0
+        if self.vector[0]:
+            bounce += 1
+            self.pos[0]+=self.vector[0]*self.walk_speed
+            if self.map.collide(self):
+                self.pos[0]-=self.vector[0]*self.walk_speed
+                bounce -= 1
+            else:
+                self.facing = [self.vector[0],0]
+        if self.vector[1]:
+            bounce += 1
+            self.pos[1]+=self.vector[1]*self.walk_speed
+            if self.map.collide(self):
+                self.pos[1]-=self.vector[1]*self.walk_speed
+                bounce -= 1
+            else:
+                self.facing = [0,self.vector[1]]
+        if bounce:
+            self.animating = True
     def left(self):
         self.facing = [-1,0]
-        self.pos[0]-=self.walk_speed
-        self.animating = True
+        self.vector[0] = -1
     def right(self):
         self.facing = [1,0]
-        self.pos[0]+=self.walk_speed
-        self.animating = True
+        self.vector[0] = 1
     def up(self):
         self.facing = [0,-1]
-        self.pos[1]-=self.walk_speed
-        self.animating = True
+        self.vector[1] = -1
     def down(self):
         self.facing = [0,1]
-        self.pos[1]+=self.walk_speed
-        self.animating = True
+        self.vector[1] = 1
     def set_anim(self,anim):
         self.anim = anim
         self.frame = 0
@@ -119,6 +138,9 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
+            
+        if self.vector[0] or self.vector[1]:
+            self.walk()
 
 class Tile(Agent):
     def init(self):
@@ -171,18 +193,21 @@ class Tilemap(Agent):
                     maplayer.tiles.append(row)
                     row = []
             self.map.append(maplayer)
+            self.map_width = len(maplayer.tiles[0])
+            self.map_height = len(maplayer.tiles)
+        self.collisions = self.map[-1].tiles
+        del self.map[-1]
     def collide(self,agent):
-        top = agent.pos[1]//32
-        left = agent.pos[0]//32
-        right = (agent.pos[0]+32-1)//32
-        bottom = (agent.pos[1]+32-1)//32
-        if left<0 or top<0 or right>len(self.map[0]) or bottom>len(self.map):
+        top = (agent.pos[1]-16)//32
+        left = (agent.pos[0]-16)//32
+        right = (agent.pos[0]+16-1)//32
+        bottom = (agent.pos[1]+16-1)//32
+        if left<0 or top<0 or right>self.map_width or bottom>self.map_height:
             return 1
         col = 0
-        print left,top,self.map[top][left].index
         points =[(left,top),(right,top),(left,bottom),(right,bottom)]
         for point in points:
-            if self.map[point[1]][point[0]].index>0:
+            if self.collisions[point[1]][point[0]].index>0:
                 return 1
     def get_sprites(self):
         return [layer for layer in self.map]
@@ -192,18 +217,13 @@ class GameWorld(World):
         self.map = Tilemap()
         self.map.load("dat/castle.tmx")
         
-        self.player = Player()
-        self.player.load("art/sprites/weddingguy03.png")
-        self.player.pos = [11*32,15*32]
-        
         self.camera = self.offset
         
         self.scroll_speed = 5
 
         self.add(self.map)
-        self.add(self.player)
 
-        for i in range(1000):
+        for i in range(5):
             self.player = Player()
             art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
             f = random.choice(art)
@@ -211,6 +231,7 @@ class GameWorld(World):
             self.player.pos = [random.randint(0,39*32),random.randint(0,29*32)]
             random.choice([self.player.up,self.player.down,self.player.left,self.player.right])()
             self.player.idle()
+            self.player.map = self.map
             self.add(self.player)
         
         self.camera_focus = self.player
@@ -224,15 +245,6 @@ class GameWorld(World):
             self.player.up()
         if controller.down:
             self.player.down()
-        
-        #~ if controller.left:
-            #~ self.camera[0]-=self.scroll_speed
-        #~ if controller.right:
-            #~ self.camera[0]+=self.scroll_speed
-        #~ if controller.up:
-            #~ self.camera[1]-=self.scroll_speed
-        #~ if controller.down:
-            #~ self.camera[1]+=self.scroll_speed
     def update(self):
         super(GameWorld,self).update()
         self.focus_camera()
