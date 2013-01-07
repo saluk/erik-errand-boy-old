@@ -8,17 +8,42 @@
  </tileset>
  <layer name="floor1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0bENgCAQheELcQhbOh3FSdRJ1EnEDRhPiNAZ5TCBM3nF113x551uiDQAAABUNyqiWaXft3SxL+Ld177FtW2MPlugz282BUNGX6rcPr/ZGnTOIbiPs12pvt019YL7YqNh/rZkX66nFsl9d50S+2rvBwDwRyfQlfCY
+   eJzt0bEJgDAUhOFHcAjbdDqKk6iTqJMYN3A8nxAbiSAvaK644ut/7nwl4omIiKi43omMrnzHk0nbFrC+c7Mh6gx9u7yTs9kcNWoD7rN8+3Xfqk0tcN/VGAzf/tWXI9VSg/elOhH70PdD6CMiujsAYGnovg==
   </data>
  </layer>
  <layer name="wall1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlTEKgDAMRVtv4KS4OYnewiN4W4ceoYcyggUJSBoKicN/8OgS6FtCQgAAAAAApyc7pZZE4/+0xNc7C3pQ+hK5Cyb0ffZl8hDMjn01e+KxS+hrA31tDOT4eAqWucmpr1bLvoVclW6GfTfS3eBa8/c+6a5xgR0XNkwgKg==
+   eJzt1cEJgDAMRuE6gifBBUS3cAT37QgdygjFQ0BiKSQK74P/3HcINCUAAKCN0QGGITrA8Je+LNuNZfoe+4rsMFYC+97cYcSt0teHvj5TfbdlM323RbY2bnPsu1j/hp63r/dZ/5oe/JzlIRfh
+  </data>
+ </layer>
+ <layer name="decoration1" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzqEBACAMxMDODxvAskzwthXcyahUAQD8bYe+Wi+yG/ppvQAAmPMAZFsCSw==
+  </data>
+ </layer>
+ <layer name="floor2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1bEJACAMRcHsP5HjOYCN8hUM3EG6QF6XKgCgo3E4+ta+F7u36Mvoy+jLdOjbuet/AD+ZnsQoQQ==
   </data>
  </layer>
  <layer name="wall2" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlUEKwjAQRbOzeoGKF6h6AcULKL1ApRdQev8DOAMJDkNIMENMF//BI5B8mE824xwAAACwDjbkluz8uWvcRdOTe+FBvf+zbx+5G8gjefLnWb3rvjUJ/eQ/Xsir8Obvw7+16Cdn3skH+fSOiWxtYjMn9+3GPedEtjaxmS/yLVwS2dr8MhP9bDPRzzazRb8A74wuo94jYP3wLhuzqfK8Fd5lczZVnrfCu2zJpsrzwMYH22cQDg==
+   eJztlcEJgDAQBIMfxQYEf74EG1FsQLEBxf4L8A4MimgOc8Z8dmB+G3bJ54wBAAAAwJWUTF6a/7iv8HhTfr7iGbuP/7EStP8WY9+5syU7ctztHdnQ3HUO5tjGOydHNjR3nTO5nFwd2dC86cQ+XSf26Tpj7LPUZCbYRNgFdPAt68WUf14L37JJTPnntfAtW8WUfx7o2AAvqg6n
+  </data>
+ </layer>
+ <layer name="decoration2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzsENACAIADH2j26gu8oEfgmkTe5/EQAAdLCyXT3xcbJbPQEAjPQAQDQCUw==
+  </data>
+ </layer>
+ <layer name="floor3" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztw6ENAAAIA7Cdwf+XYidRqDZpAgBcTQUAAH4sUA0ASQ==
+  </data>
+ </layer>
+ <layer name="wall3" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJwCAQRFFv0TQg2ICaBpT0X1jm4EEinjeB/+Cz7G2cAwDgGw4VlB/3tJ2ziK8/mazYy6qoOu5lO2fRVJ+6becAAADgRx4upAJA
   </data>
  </layer>
 </map>
