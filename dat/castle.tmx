@@ -8,12 +8,12 @@
  </tileset>
  <layer name="floor1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1rEJgDAUhOFHyBC2r9NRnEQ3USfRbOB4viKCqIVREq+44isDPxcCUS+iB6s8o/4f7GMfWl8F3nfXidiHvh9CHxFddU6kj1ozubTzud/9YD1jVJsA3Je6XYm+2Zoa4L69cXlxt6X6vuC/J18f+n4IfUREZxs3jRnn
+   eJzt1rENgCAUhOEXwhC2dDqKk6iTqJOIGzier8DEEAvRAFdc8fdf7oUEZ0XcrUPe5Wyd6KMPzdeA+56ciD70/RB8jNVuMCKTqe+ITWOo19ZEX+53P6tnCbXaDuxL3a6Eb1NTB+y7jP7DbUv5/sR/Tz4f+n4IPsYYizsB5jwacQ==
   </data>
  </layer>
  <layer name="wall1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlsEJgDAMRdsRPAkuILqFI7hvR3AQ3UA9GbGKeDBtld8qefDoJeCDIo1SG9qehmwYjcKz93Vky9hF7NO3U+4zbyN9z5C+Z+T2uz4W0ndQkpWnNbBvhXs3rqIJ6cuAfdy7dnUlxr/sw1f6Ut97Uu+TvSyMc19PDg6zSM59IzmRMzOL5Ev36zqLJPW9J/U+2cv+3xeylwkYFgo4MOk=
+   eJztltENQEAMQM8IviQWELYwgqUwlBEMwgb4UkGID73eSZX0JS9+mvMSiasxK8H2bMAcsTH87H0tWCC2L/YFt1P2M0+jfX5o30EJB1RgTTgo2t5LMfbspCC9LwFTohlj3wJ2b1zlxqUvZOzD7rWrC2/8ayh8pU/63iO9T/cyN859HdhbzHJy7hvAEZyQWU6+9H1tZzmRvvdI79O97P99LnuZwsMMNEYygQ==
   </data>
  </layer>
  <layer name="decoration1" width="40" height="30">
@@ -28,7 +28,7 @@
  </layer>
  <layer name="wall2" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJxjYIAAcSgtxYAA4UAcAcUeQByFRy2tATY704E4Awln4VFLa0CKnaPuo8zOUfdRZudAuA8G1IGYgwDWGgB3jQLKgDsQe9FQPaUAVJdFEVSFqZ4diJlIxFxkuA9Ul2URVIWpXpyQQixgIMolUDgqEsCwcBvochOUNkHtHVjbxwuPWlqD0XYZZWCw14uj7qMMjLqPOmC0XTY8wXBtl9ELkNsuGwX0AQAL7Rm+
+   eJztll0KgkAUhcceUtqA0FsvGS0kxQ0ULiDF/S+gc0kpUOamt/lB7gcfvhyZwzBwrzFv8uF7NB/u8DFYwcaSdc3cmS3svuwtWdcsOVPab58Yk8Is+f0fn/3O6FXAS6T9buhVwirSfk/0amEXaT8JBcwYrwF6KTJKWDvMS6FZ1rCpaT6Fu4UeVvSjWdazqWk+54IzhJiLdI8nxvHeQs9tepu074y7T23Jukb3Mhmxz0XtJ0P7/Qfdy7bJVvcyX6zdyxQ/vAAhKBxe
   </data>
  </layer>
  <layer name="decoration2" width="40" height="30">
@@ -43,7 +43,7 @@
  </layer>
  <layer name="wall3" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMAoGB2AHYk4g5oDSXAPrHAwgjsaXGhBX4AbqQKwBxJpQWovK5qczMTBkMpGv3xyILZCwFXWcNQpGwSgYBaNgFIyCUTAKRgAAAOlcAxQ=
+   eJztzkEKgCAURVEbaW1AcANWGzDa/8J8AwdiNAlBiXvg8nEizxgAAOZg1apcudvYOQ++eYchK95Ftauj3LPz/0vVF0ldVXenXQAAAPi/DE48AkM=
   </data>
  </layer>
 </map>

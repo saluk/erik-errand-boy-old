@@ -5,6 +5,7 @@
 
 import pygame
 import random
+import os
 import time
 from agents import *
 
@@ -204,8 +205,12 @@ class GameWorld(World):
 
         for i in range(1000):
             self.player = Player()
-            self.player.load("art/sprites/weddingguy03.png")
-            self.player.pos = [random.randint(0,100)*32,random.randint(0,50)*32]
+            art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
+            f = random.choice(art)
+            self.player.load("art/sprites/"+f)
+            self.player.pos = [random.randint(0,39*32),random.randint(0,29*32)]
+            random.choice([self.player.up,self.player.down,self.player.left,self.player.right])()
+            self.player.idle()
             self.add(self.player)
         
         self.camera_focus = self.player
