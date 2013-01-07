@@ -29,7 +29,7 @@ class World(object):
             o.update(self)
             if o.visible:
                 self.sprites.extend(o.get_sprites())
-        self.sprites.sort(key=lambda sprite:sprite.layer)
+        self.sprites.sort(key=lambda sprite:(sprite.layer,sprite.pos[1]))
     def draw(self):
         """Iterate sprites and draw them"""
         [s.draw(self.engine,self.offset) for s in self.sprites]
@@ -196,11 +196,19 @@ class GameWorld(World):
         self.player.pos = [11*32,15*32]
         
         self.camera = self.offset
-        self.camera_focus = self.player
+        
         self.scroll_speed = 5
 
         self.add(self.map)
         self.add(self.player)
+
+        for i in range(1000):
+            self.player = Player()
+            self.player.load("art/sprites/weddingguy03.png")
+            self.player.pos = [random.randint(0,100)*32,random.randint(0,50)*32]
+            self.add(self.player)
+        
+        self.camera_focus = self.player
     def input(self,controller):
         self.player.idle()
         if controller.left:
