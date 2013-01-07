@@ -27,7 +27,7 @@ class Engine:
         self.blank = None
         self.running = False   #If this is set to false, the game will quit
         self.paused = False   #Not implemented, should be controlled by the world
-        self.framerate = 60    #What framerate the game runs at
+        self.framerate = 30    #What framerate the game runs at
         self.dt = 0
         self.show_fps = True
         self.clock = None

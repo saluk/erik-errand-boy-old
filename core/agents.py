@@ -34,8 +34,10 @@ class Agent(object):
         self.visible = True
         self.gfd = {}
         self.gft = {}
-        self.layer = 0
+        self.layer = 2
         self.init()
+    def get_sprites(self):
+        return [self]
     def init(self):
         pass
     def load(self,art=None):

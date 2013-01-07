@@ -28,7 +28,8 @@ class World(object):
         for o in self.objects:
             o.update(self)
             if o.visible:
-                self.sprites.append(o)
+                self.sprites.extend(o.get_sprites())
+        self.sprites.sort(key=lambda sprite:sprite.layer)
     def draw(self):
         """Iterate sprites and draw them"""
         [s.draw(self.engine,self.offset) for s in self.sprites]
@@ -58,6 +59,7 @@ class Player(Agent):
         self.frame = 0
         self.anim = None
         self.animating = False
+        self.walk_speed = 4
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -73,19 +75,19 @@ class Player(Agent):
         self.animating = False
     def left(self):
         self.facing = [-1,0]
-        self.pos[0]-=2
+        self.pos[0]-=self.walk_speed
         self.animating = True
     def right(self):
         self.facing = [1,0]
-        self.pos[0]+=2
+        self.pos[0]+=self.walk_speed
         self.animating = True
     def up(self):
         self.facing = [0,-1]
-        self.pos[1]-=2
+        self.pos[1]-=self.walk_speed
         self.animating = True
     def down(self):
         self.facing = [0,1]
-        self.pos[1]+=2
+        self.pos[1]+=self.walk_speed
         self.animating = True
     def set_anim(self,anim):
         self.anim = anim
@@ -122,6 +124,14 @@ class Tile(Agent):
         pass
     def is_empty(self):
         return self.index==-1
+        
+class TileLayer(Agent):
+    def init(self):
+        self.tiles = []
+    def draw(self,engine,offset):
+        for row in self.tiles:
+            for tile in row:
+                tile.draw(engine,offset)
 
 class Tilemap(Agent):
     def load(self,map):
@@ -143,8 +153,9 @@ class Tilemap(Agent):
 
         self.map = []
         row = []
-        for layer in self.raw_map.layers:
-            maplayer = []
+        for i,layer in enumerate(self.raw_map.layers):
+            maplayer = TileLayer()
+            maplayer.layer = i
             x=y=0
             for ti in layer.decoded_content:
                 tile = Tile()
@@ -156,7 +167,7 @@ class Tilemap(Agent):
                 if x>=layer.width:
                     x=0
                     y+=1
-                    maplayer.append(row)
+                    maplayer.tiles.append(row)
                     row = []
             self.map.append(maplayer)
     def collide(self,agent):
@@ -172,11 +183,8 @@ class Tilemap(Agent):
         for point in points:
             if self.map[point[1]][point[0]].index>0:
                 return 1
-    def draw(self,engine,offset):
-        for layer in self.map:
-            for row in layer:
-                for tile in row:
-                    tile.draw(engine,offset)
+    def get_sprites(self):
+        return [layer for layer in self.map]
 
 class GameWorld(World):
     def start(self):
