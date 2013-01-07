@@ -10,6 +10,7 @@ import pygame
 import random
 
 def fit(surf,size):
+    surf = pygame.transform.scale2x(surf)
     surf = pygame.transform.smoothscale(surf,size)
     return surf
 
@@ -17,8 +18,8 @@ class Engine:
     def __init__(self):
         self.fullscreen = False
         #The screen width, what resolution the screen is scaled to
-        self.swidth = 640
-        self.sheight = 480
+        self.swidth = 1024
+        self.sheight = 768
         #The interactive width, what resolution the game is actually rendered at
         self.iwidth = 320
         self.iheight = 240
