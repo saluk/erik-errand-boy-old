@@ -74,6 +74,9 @@ class Player(Agent):
             self.anims[order[y]] = frames
     def draw(self,engine,offset=[0,0]):
         super(Player,self).draw(engine,offset)
+        x,y = (self.pos[0])//32*32-offset[0],(self.pos[1])//32*32-offset[1]
+        w,h = 32,32
+        #pygame.draw.rect(engine.surface,[255,0,255],pygame.Rect([[x,y],[w,h]]))
     def idle(self):
         self.animating = False
         self.vector = [0,0]
@@ -196,14 +199,11 @@ class Tilemap(Agent):
         self.collisions = self.map[-1].tiles
         del self.map[-1]
     def collide(self,agent):
-        top = (agent.pos[1]-16)//32
-        left = (agent.pos[0]-16)//32
-        right = (agent.pos[0]+16-1)//32
-        bottom = (agent.pos[1]+16-1)//32
-        if left<0 or top<0 or right>self.map_width or bottom>self.map_height:
+        x,y = [i//32 for i in agent.pos]
+        if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
             return 1
         col = 0
-        points =[(left,top),(right,top),(left,bottom),(right,bottom)]
+        points =[(x,y)]
         for point in points:
             if self.collisions[point[1]][point[0]].index>0:
                 return 1
@@ -221,12 +221,12 @@ class GameWorld(World):
 
         self.add(self.map)
 
-        for i in range(1):
+        for i in range(5):
             self.player = Player()
             art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
             f = random.choice(art)
             self.player.load("art/sprites/"+f)
-            self.player.pos = [random.randint(0,39*32),random.randint(0,29*32)]
+            self.player.pos = [random.randint(22*32,26*32),random.randint(17*32,21*32)]
             random.choice([self.player.up,self.player.down,self.player.left,self.player.right])()
             self.player.idle()
             self.player.map = self.map

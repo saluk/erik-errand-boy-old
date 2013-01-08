@@ -15,10 +15,10 @@ class Controller:
         self.engine = engine
         self.mbdown = 0
         self.mpos = [0,0]
-	self.left = 0
-	self.right = 0
-	self.up = 0
-	self.down = 0
+        self.left = 0
+        self.right = 0
+        self.up = 0
+        self.down = 0
     def input(self):
         self.mbdown = 0
         engine = self.engine
@@ -41,9 +41,13 @@ class Controller:
                 self.engine.stop()
                 continue
             if e.type==pygame.KEYDOWN and\
-            e.key==pygame.K_RETURN and pygame.key.get_mods() & pygame.KMOD_ALT:
+                e.key==pygame.K_RETURN and pygame.key.get_mods() & pygame.KMOD_ALT:
                 engine.fullscreen = 1-engine.fullscreen
                 engine.make_screen()
+                continue
+            if e.type==pygame.KEYDOWN and\
+                e.key==pygame.K_F12:
+                pygame.image.save(engine.window,"screen.jpg")
                 continue
             self.handle_pygame_event(e)
         if engine.world:
@@ -54,7 +58,7 @@ class Controller:
         if e.type == pygame.MOUSEBUTTONDOWN:
             self.mbdown = 1
             self.mpos = e.pos
-    	if e.type == pygame.KEYDOWN:
+        if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_LEFT:
                 self.left = 1
             elif e.key == pygame.K_RIGHT:

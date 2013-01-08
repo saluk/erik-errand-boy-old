@@ -18,7 +18,7 @@
  </layer>
  <layer name="decoration1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzsEJwDAMQ1F1ukIXKGSBQkZpNkiXrRfwydjJ4T/QReggCQCkY/UBAFhoOP1b+sL3Of0sfQEA2N1puRL3UbelJe6jHktP3CPmBw0WBnI=
+   eJzt1TsKgDAQRdFxdUI2oLgBxaX42YCfvfqCTbALIUzhPXC7KV43ZgBg1ngPAABHq2pVnxTU4jkqcapObWq3d9+gDs9RH6O61K0mNfvOAYBfir8sVLwvFX/ZUPG+VPxlOf8r9x5lHje7DJ8=
   </data>
  </layer>
  <layer name="floor2" width="40" height="30">
@@ -28,12 +28,12 @@
  </layer>
  <layer name="wall2" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztkEEKgzAQRccuqvQCBXdutPQgKl5A8QAqntzeol8w1EWMWhITcR683Q/zCBFzNu4ekQ8Dz3aJnBhdCXw52peiK4O5o30NulrYOdrHMFfBh7edPg7se/7xJtResYzoG/8xWlH8m42++c0M5rCaLBRb08hulvRrGztrxdY0spst7Gb2iq1p9ty03TfAz8btUZzp/3RudeF6nyCBwYpvC10MwzBLfAG9cQ7y
+   eJztkDsOgCAQBcFCiBcwsbMR40HUk6hH11v4LOgkoBI+cSeZbgmTxxiRGyVnTEDJY5fc06FLwT7RvhFdE5wT7VvQtcIt0T6C+AsCFg+tAvbVL9403ivM6L5rx9ai3i1Gn8ufT259QX3fyKlvh4fjbShy2s/nrS9S79MoKC0OEboIgiBMnOMMCbc=
   </data>
  </layer>
  <layer name="decoration2" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzsENACAIADH2j26gu8oEfgmkTe5/EQAAdLCyXT3xcbJbPQEAjPQAQDQCUw==
+   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
   </data>
  </layer>
  <layer name="floor3" width="40" height="30">
@@ -46,9 +46,9 @@
    eJztzkEKgCAURVEbaW1AcANWGzDa/8J8AwdiNAlBiXvg8nEizxgAAOZg1apcudvYOQ++eYchK95Ftauj3LPz/0vVF0ldVXenXQAAAPi/DE48AkM=
   </data>
  </layer>
- <layer name="COLLISIONS" width="40" height="30" visible="0">
+ <layer name="COLLISIONS" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlkEOwCAIBO3/v9THeerFQkQWEZOdxNuiI2rT1gghhJAavM9/VHIZfU76SmtZfNE1rXN8Oa2PkqfHz3sGmX6ja2W/1Tppf5oXcr4RfhFZrX71/Wf6edDu3yybxU39i8xGkfV9Qf1213ix9u3k/wH9cL9deYLRAbj4fMY=
+   eJztltEKgCAMRa3n/v9r+riI2ItNcrs6F9wDEshuHqZGpRBCCCE5OLf3yORS+6z01dbq8UXX7H2H1LX6qHl6/Lx7EOlXu2b2s+bu57E/Q/OSecTPk7dkED/JWe9/pJ+H1vn7qo3iT/0bWTuKqO8L6jc746W3byv/D+iH+82qJxgXGlh88A==
   </data>
  </layer>
 </map>
