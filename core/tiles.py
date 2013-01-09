@@ -1,5 +1,6 @@
+import pygame
 from tiledtmxloader import tmxreader
-from agents import *
+from agents import Agent
 
 class Tile(Agent):
     def init(self):

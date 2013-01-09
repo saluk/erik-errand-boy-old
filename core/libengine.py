@@ -23,7 +23,7 @@ import sys,os
 import time
 import engine
 import controller
-import world
+import game
 if sys.platform=="win32":
     os.environ['SDL_VIDEODRIVER']='windib'
 
@@ -38,7 +38,7 @@ controller = controller.Controller(engine)
 def run():
     engine.running = True
     engine.start()
-    engine.world = world.make_world(engine)
+    engine.world = game.make_world(engine)
 
 
     lt = time.time()
