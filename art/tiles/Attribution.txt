@@ -1,3 +1,5 @@
+base_out_atlas and terrain_atlas
+
 License
 -------
 
