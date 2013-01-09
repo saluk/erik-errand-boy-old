@@ -1,3 +1,5 @@
+import pygame
+
 from agents import Agent
 
 class Player(Agent):
@@ -11,6 +13,8 @@ class Player(Agent):
         self.animating = False
         self.walk_speed = 2
         self.vector = [0,0]
+        
+        self.radius = 14   #collision radius around hotspot
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -91,7 +95,11 @@ class Player(Agent):
             self.frame += 1
             self.set_animation_frame()
     def collide(self,agent):
-        radius = 10
+        radius = self.radius
         left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1
         if agent.pos[0]>=left and agent.pos[0]<=right and agent.pos[1]>=top and agent.pos[1]<=bottom:
             return 1
+    def rect(self):
+        radius = self.radius
+        left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1
+        return pygame.Rect([[left,top],[right-left,bottom-top]])

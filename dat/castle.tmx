@@ -11,6 +11,34 @@
  <tileset firstgid="257" name="terrain_atlas" tilewidth="32" tileheight="32">
   <image source="../art/tiles/terrain_atlas.png" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="1281" name="collisions" tilewidth="32" tileheight="32">
+  <image source="../art/tiles/collisions.png" width="1024" height="1024"/>
+  <tile id="1">
+   <properties>
+    <property name="col" value="full"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="col" value="top"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="col" value="bottom"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="col" value="left"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="col" value="right"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="floor1" width="40" height="30">
   <data encoding="base64" compression="zlib">
    eJzt1sENgCAMQNGGMIRX9KKjOIk6iTqJuoHjiQkHQpCICm1iD//+0qYEJQGU1Q73UhIn9rGPmq8g7vM5Kfqoz4+Cj+Ow6wTAIPAdrqk3tbo50pf67kftmUy1bgv4SmSfPbuKyPwWbWo8Pl8+c453/TSuD3aby/emv/97Qnfg7hTjflPO72vf1Q1wHMfFdAAyQxp8
@@ -51,9 +79,9 @@
    eJztzkEKgCAURVEbaW1AcANWGzDa/8J8AwdiNAlBiXvg8nEizxgAAOZg1apcudvYOQ++eYchK95Ftauj3LPz/0vVF0ldVXenXQAAAPi/DE48AkM=
   </data>
  </layer>
- <layer name="COLLISIONS" width="40" height="30" visible="0">
+ <layer name="COLLISIONS" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztltEKgCAMRa3n/v9r+riI2ItNcrs6F9wDEshuHqZGpRBCCCE5OLf3yORS+6z01dbq8UXX7H2H1LX6qHl6/Lx7EOlXu2b2s+bu57E/Q/OSecTPk7dkED/JWe9/pJ+H1vn7qo3iT/0bWTuKqO8L6jc746W3byv/D+iH+82qJxgXGlh88A==
+   eJztlQEKgCAMRbOw+x+ow1WY8JEt11YLag8+CRp7TK1hCIIgCIJ3SblkJFLn6jovKBf04XyfBmsngU87b2FJJT039OP6SHnWp8YJ08PidxX0kfi90T9q3ANrTkf2cd4yg9d0g1/1ku5t2z+qJndWk8FR2j+uJhdL/zScnT8Ka/80cHdS0j8vP3z21nrub1vzye+fhrN7IXnHy08Tz/39op8X+P+SxNvv76wzUBPZ
   </data>
  </layer>
 </map>

@@ -4,7 +4,7 @@ from agents import Agent
 
 class Tile(Agent):
     def init(self):
-        pass
+        self.col = None    #full,top,bottom,left,right
     def is_empty(self):
         return self.index==-1
     def draw(self,engine,offset):
@@ -14,6 +14,23 @@ class Tile(Agent):
             s.fill([255,255,255])
             s.set_alpha(50)
             engine.surface.blit(s,[self.pos[0]-offset[0],self.pos[1]-offset[1]])
+    def collide_point(self,point):
+        if not self.col:
+            return
+        top = self.pos[1]
+        left = self.pos[0]
+        right = self.pos[0]+31
+        bottom = self.pos[1]+31
+        if self.col == "top":
+            bottom-=16
+        if self.col == "left":
+            right-=16
+        if self.col == "right":
+            left+=16
+        if self.col == "bottom":
+            top+=16
+        if point[0]>=left and point[0]<=right and point[1]>=top and point[1]<=bottom:
+            return 1
         
 class TileLayer(Agent):
     def init(self):
@@ -74,13 +91,13 @@ class TileMap(Agent):
         self.collisions = self.map[-1].tiles
         del self.map[-1]
     def collide(self,agent):
-        x,y = [i//32 for i in agent.pos]
-        if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
-            return 1
-        col = 0
-        points =[(x,y)]
-        for point in points:
-            if self.collisions[point[1]][point[0]].index>0:
+        r = agent.rect()
+        for point in ([r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]):
+            x,y = [i//32 for i in point]
+            if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
+                return 1
+            col = 0
+            if self.collisions[y][x].collide_point(point):
                 return 1
     def get_sprites(self):
         return [layer for layer in self.map]
