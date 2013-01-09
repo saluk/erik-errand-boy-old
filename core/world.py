@@ -84,14 +84,14 @@ class Player(Agent):
         moved = False
         if self.vector[0]:
             self.pos[0]+=self.vector[0]*self.walk_speed
-            if self.map.collide(self):
+            if self.world.collide(self):
                 self.pos[0]-=self.vector[0]*self.walk_speed
             else:
                 self.facing = [self.vector[0],0]
                 moved = True
         if self.vector[1]:
             self.pos[1]+=self.vector[1]*self.walk_speed
-            if self.map.collide(self):
+            if self.world.collide(self):
                 self.pos[1]-=self.vector[1]*self.walk_speed
             else:
                 self.facing = [0,self.vector[1]]
@@ -142,6 +142,11 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
+    def collide(self,agent):
+        radius = 10
+        left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1
+        if agent.pos[0]>=left and agent.pos[0]<=right and agent.pos[1]>=top and agent.pos[1]<=bottom:
+            return 1
 
 class Tile(Agent):
     def init(self):
@@ -229,10 +234,16 @@ class GameWorld(World):
             self.player.pos = [random.randint(22*32,26*32),random.randint(17*32,21*32)]
             random.choice([self.player.up,self.player.down,self.player.left,self.player.right])()
             self.player.idle()
-            self.player.map = self.map
             self.add(self.player)
+        self.player.pos = [20*32,17*32]
         
         self.camera_focus = self.player
+    def collide(self,agent):
+        for ob in self.objects:
+            if ob==agent:
+                continue
+            if ob.collide(agent):
+                return 1
     def input(self,controller):
         self.player.idle()
         if controller.left:

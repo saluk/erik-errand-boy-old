@@ -63,3 +63,6 @@ class Agent(object):
         r = self.surface.get_rect()
         r = r.move(self.pos[0]-self.hotspot[0],self.pos[1]-self.hotspot[1])
         return r
+    def collide(self,agent):
+        """How to collide with another agent (usually the player)"""
+        return
