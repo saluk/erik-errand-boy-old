@@ -7,6 +7,13 @@ class Tile(Agent):
         pass
     def is_empty(self):
         return self.index==-1
+    def draw(self,engine,offset):
+        super(Tile,self).draw(engine,offset)
+        if hasattr(self,"chest"):
+            s = pygame.Surface([32,32])
+            s.fill([255,255,255])
+            s.set_alpha(50)
+            engine.surface.blit(s,[self.pos[0]-offset[0],self.pos[1]-offset[1]])
         
 class TileLayer(Agent):
     def init(self):
@@ -22,12 +29,20 @@ class TileMap(Agent):
         self.raw_map = tmxreader.TileMapParser().parse_decode(self.mapfile)
 
         self.tileset_list = [None]
-        for tileset in self.raw_map.tile_sets:
-            tileset = pygame.image.load(tileset.images[0].source).convert_alpha()
+        self.tile_properties = {}
+        for tileset_raw in self.raw_map.tile_sets:
+            props = {}
+            for tile in tileset_raw.tiles:
+                props[tile.id] = tile.properties
+            tileset = pygame.image.load(tileset_raw.images[0].source).convert_alpha()
             x = 0
             y = 0
+            i = 0
             while y*32<tileset.get_height():
                 self.tileset_list.append(tileset.subsurface([[x*32,y*32],[32,32]]))
+                if str(i) in props:
+                    self.tile_properties[len(self.tileset_list)-1] = props[str(i)]
+                i += 1
                 x+=1
                 if x*32>=tileset.get_width():
                     x=0
@@ -44,6 +59,8 @@ class TileMap(Agent):
                 tile.index = ti
                 tile.surface = self.tileset_list[tile.index]
                 tile.pos = [x*32,y*32]
+                for k,v in self.tile_properties.get(ti,{}).items():
+                    setattr(tile,k,v)
                 row.append(tile)
                 x+=1
                 if x>=layer.width:
