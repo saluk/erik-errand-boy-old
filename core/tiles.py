@@ -113,6 +113,10 @@ class TileMap(Agent):
     def collide(self,agent):
         r = agent.rect()
         for point in ([r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]):
+            col = self.collide_point(point)
+            if col:
+                return col
+    def collide_point(self,point):
             x,y = [i//32 for i in point]
             if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
                 return Tile()
@@ -120,9 +124,9 @@ class TileMap(Agent):
             tile = self.collisions[y][x].collide_point(point)
             if tile:
                 return tile
-        for warp in self.warps:
-            r = warp["rect"]
-            if agent.pos[0]>=r.left and agent.pos[0]<=r.right and agent.pos[1]>=r.top and agent.pos[1]<=r.bottom:
-                return warp
+            for warp in self.warps:
+                r = warp["rect"]
+                if point[0]>=r.left and point[0]<=r.right and point[1]>=r.top and point[1]<=r.bottom:
+                    return warp
     def get_sprites(self):
         return [layer for layer in self.map]

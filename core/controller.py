@@ -21,6 +21,7 @@ class Controller:
         self.down = 0
     def input(self):
         self.mbdown = 0
+        self.action = 0
         engine = self.engine
         pygame.event.pump()
         for e in pygame.event.get():
@@ -67,6 +68,8 @@ class Controller:
                 self.up = 1
             elif e.key == pygame.K_DOWN:
                 self.down = 1
+            if e.key == pygame.K_z:
+                self.action = 1
         elif e.type == pygame.KEYUP:
             if e.key == pygame.K_LEFT:
                 self.left = 0

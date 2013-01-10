@@ -15,6 +15,9 @@ class Player(Agent):
         self.vector = [0,0]
         
         self.radius = 14   #collision radius around hotspot
+        
+        self.following = None
+        self.following_points = []
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -30,6 +33,8 @@ class Player(Agent):
         x,y = (self.pos[0])//32*32-offset[0],(self.pos[1])//32*32-offset[1]
         w,h = 32,32
         #pygame.draw.rect(engine.surface,[255,0,255],pygame.Rect([[x,y],[w,h]]))
+        for p in self.following_points:
+            pygame.draw.rect(engine.surface,[255,0,255],[[p[0]-offset[0],p[1]-offset[1]],[2,2]])
     def idle(self):
         self.animating = False
         self.vector = [0,0]
@@ -59,6 +64,25 @@ class Player(Agent):
                         self.world.change_map(self,col["map"],col["warptarget"])
         if moved:
             self.animating = True
+    def frobme(self,actor):
+        if not self.following:
+            self.following = actor
+            #self.world.camera_focus = self
+        else:
+            self.following = None
+            self.following_points = []
+            #self.world.camera_focus = actor
+    def action(self):
+        """Interact with object in front of us"""
+        p = self.pos[:]
+        for s in range(3):
+            p[0]+=self.facing[0]*8
+            p[1]+=self.facing[1]*8
+            col = self.world.collide_point(self,p)
+            if col:
+                if hasattr(col,"frobme"):
+                    col.frobme(self)
+                return
     def left(self):
         self.facing = [-1,0]
         self.vector[0] = -1
@@ -82,6 +106,9 @@ class Player(Agent):
             self.frame = 0
         self.surface = anim[self.frame]
     def update(self,dt):
+        if self.following:
+            self.follow()
+        
         if self.vector[0] or self.vector[1]:
             self.walk()
             
@@ -103,11 +130,39 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
+    def follow(self):
+        self.idle()
+        md = 8
+        fp=8
+        max = 10
+        p = [self.following.pos[0]//fp*fp,self.following.pos[1]//fp*fp]
+        if not self.following_points:
+            self.following_points.append(p)
+        if p!=self.following_points[-1] and self.following.map==self.map:
+            self.following_points.append(p)
+        if len(self.following_points)<5 and self.following.map==self.map:
+            return
+        if len(self.following_points)>max:
+            self.following_points = self.following_points[-max:]
+        p = self.following_points[0]
+        if abs(self.pos[0]-p[0])<=md and abs(self.pos[1]-p[1])<=md:
+            del self.following_points[0]
+            return
+        if self.pos[1]-p[1]>md:
+            self.up()
+        elif self.pos[1]-p[1]<-md:
+            self.down()
+        if self.pos[0]-p[0]>md:
+            self.left()
+        elif self.pos[0]-p[0]<-md:
+            self.right()
     def collide(self,agent):
+        return self.collide_point(agent.pos)
+    def collide_point(self,p):
         radius = self.radius
         left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1
-        if agent.pos[0]>=left and agent.pos[0]<=right and agent.pos[1]>=top and agent.pos[1]<=bottom:
-            return 1
+        if p[0]>=left and p[0]<=right and p[1]>=top and p[1]<=bottom:
+            return self
     def rect(self):
         radius = self.radius
         left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1

@@ -49,16 +49,16 @@
   </data>
  </layer>
  <objectgroup name="spawns" width="40" height="30">
-  <object name="spawn" x="704" y="576" width="160" height="128"/>
+  <object name="spawn" x="718" y="571" width="135" height="119"/>
   <object name="playerspawn" x="608" y="544" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="transitions" width="40" height="30">
-  <object x="705" y="482" width="58" height="46">
+  <object x="703" y="486" width="62" height="34">
    <properties>
     <property name="warp" value="room1_A"/>
    </properties>
   </object>
-  <object x="733" y="541" width="8" height="10">
+  <object x="733" y="553" width="7" height="9">
    <properties>
     <property name="destination" value="A"/>
    </properties>

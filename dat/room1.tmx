@@ -42,11 +42,11 @@
   </data>
  </layer>
  <objectgroup name="regions" width="40" height="30">
-  <object name="spawn" x="128" y="192" width="448" height="96"/>
+  <object name="spawn" x="136" y="198" width="432" height="86"/>
   <object name="playerspawn1" x="277" y="146" width="41" height="26"/>
  </objectgroup>
  <objectgroup name="transitions" width="40" height="30">
-  <object x="312" y="254" width="19" height="17">
+  <object x="321" y="264" width="11" height="9">
    <properties>
     <property name="destination" value="A"/>
    </properties>

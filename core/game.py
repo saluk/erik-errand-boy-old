@@ -28,7 +28,6 @@ class GameWorld(World):
                 sprite = "art/sprites/"+random.choice(art)
                 self.add_character(map=mapkey,sprite=sprite,pos=pos,direction=direction)
         
-        self.add(self.map)
         self.camera_focus = self.player
     def add_character(self,map,sprite,pos,direction):
         p = Player()
@@ -40,18 +39,38 @@ class GameWorld(World):
         self.add(p)
         return p
     def change_map(self,character,map,target):
+        print "change map",character,map,target
         character.map = map
         target = self.maps[map].destinations[target]
         character.pos = [target.left,target.top]
-        if character == self.player:
-            self.remove(self.map)
-            self.map = self.maps[map]
-            self.add(self.map)
+    def get_objects(self,agent):
+        return [self.maps[agent.map]] + [o for o in self.objects if o.map==agent.map]
+    def update(self):
+        """self.sprites starts empty, any object added to the list during
+        update() is going to be rendered"""
+        self.sprites = []
+        for m in self.maps.values():
+            m.update(self)
+        for o in self.objects:
+            o.update(self)
+        for o in self.get_objects(self.camera_focus):
+            if o.visible:
+                self.sprites.extend(o.get_sprites())
+        self.sprites.sort(key=lambda sprite:(sprite.layer,sprite.pos[1]))
+        
+        self.focus_camera()
     def collide(self,agent):
-        for ob in self.objects:
+        for ob in self.get_objects(agent):
             if ob==agent:
                 continue
             col = ob.collide(agent)
+            if col:
+                return col
+    def collide_point(self,agent,p):
+        for ob in self.get_objects(agent):
+            if ob==agent:
+                continue
+            col = ob.collide_point(p)
             if col:
                 return col
     def input(self,controller):
@@ -64,10 +83,8 @@ class GameWorld(World):
             self.player.up()
         if controller.down:
             self.player.down()
-    def update(self):
-        super(GameWorld,self).update()
-        self.focus_camera()
-        
+        if controller.action:
+            self.player.action()
     def focus_camera(self):
         if not self.camera_focus:
             return
