@@ -46,10 +46,14 @@ class Player(Agent):
     def walk(self):
         moved = False
         col1=col2=None
+        
+        #calculate inside collisions
+        col0 = self.world.collide(self)
+        
         if self.vector[0]:
             self.pos[0]+=self.vector[0]*self.walk_speed
             col1 = self.world.collide(self)
-            if col1:
+            if col1 and not col0:
                 self.pos[0]-=self.vector[0]*self.walk_speed
             else:
                 self.facing = [self.vector[0],0]
@@ -57,17 +61,25 @@ class Player(Agent):
         if self.vector[1]:
             self.pos[1]+=self.vector[1]*self.walk_speed
             col2 = self.world.collide(self)
-            if col2:
+            if col2 and not col0:
                 self.pos[1]-=self.vector[1]*self.walk_speed
             else:
                 self.facing = [0,self.vector[1]]
                 moved = True
+        
+        hit_any = None
         for col in col1,col2:
             if col:
-                self.last_hit = col
+                hit_any = col
                 if isinstance(col,dict):
                     if "warptarget" in col:
                         self.world.change_map(self,col["map"],col["warptarget"])
+                        
+        if hit_any:
+            self.last_hit = hit_any
+        else:
+            self.last_hit = None
+        
         if moved:
             self.animating = True
     def frobme(self,actor):
