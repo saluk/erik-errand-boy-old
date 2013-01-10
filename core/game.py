@@ -25,6 +25,7 @@ class GameWorld(World):
             self.player.idle()
             self.add(self.player)
         self.player.pos = [20*32,17*32]
+        self.player.load("art/sprites/erik.png")
         
         self.camera_focus = self.player
     def collide(self,agent):
