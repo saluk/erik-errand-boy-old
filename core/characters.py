@@ -20,6 +20,9 @@ class Player(Agent):
         
         self.following = None
         self.following_points = []
+        
+        self.last_random_point = None
+        self.next_random_point = 0
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
