@@ -3,6 +3,7 @@ import os,random
 from world import World
 from tiles import TileMap
 from characters import Player
+from aicontroller import AIController
 
 class GameWorld(World):
     def start(self):
@@ -49,6 +50,7 @@ class GameWorld(World):
         """self.sprites starts empty, any object added to the list during
         update() is going to be rendered"""
         self.sprites = []
+        self.ai()
         for m in self.maps.values():
             m.update(self)
         for o in self.objects:
@@ -85,6 +87,12 @@ class GameWorld(World):
             self.player.down()
         if controller.action:
             self.player.action()
+    def ai(self):
+        for ob in self.objects:
+            if isinstance(ob,Player) and not ob==self.player:
+                if not hasattr(ob,"aicontroller"):
+                    ob.aicontroller = AIController(ob)
+                ob.aicontroller.control()
     def focus_camera(self):
         if not self.camera_focus:
             return

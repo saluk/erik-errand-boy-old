@@ -16,6 +16,8 @@ class Player(Agent):
         
         self.radius = 14   #collision radius around hotspot
         
+        self.last_hit = None
+        
         self.following = None
         self.following_points = []
     def load(self,spritesheet):
@@ -59,6 +61,7 @@ class Player(Agent):
                 moved = True
         for col in col1,col2:
             if col:
+                self.last_hit = col
                 if isinstance(col,dict):
                     if "warptarget" in col:
                         self.world.change_map(self,col["map"],col["warptarget"])
@@ -106,9 +109,6 @@ class Player(Agent):
             self.frame = 0
         self.surface = anim[self.frame]
     def update(self,dt):
-        if self.following:
-            self.follow()
-        
         if self.vector[0] or self.vector[1]:
             self.walk()
             
@@ -130,32 +130,6 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
-    def follow(self):
-        self.idle()
-        md = 8
-        fp=8
-        max = 10
-        p = [self.following.pos[0]//fp*fp,self.following.pos[1]//fp*fp]
-        if not self.following_points:
-            self.following_points.append(p)
-        if p!=self.following_points[-1] and self.following.map==self.map:
-            self.following_points.append(p)
-        if len(self.following_points)<5 and self.following.map==self.map:
-            return
-        if len(self.following_points)>max:
-            self.following_points = self.following_points[-max:]
-        p = self.following_points[0]
-        if abs(self.pos[0]-p[0])<=md and abs(self.pos[1]-p[1])<=md:
-            del self.following_points[0]
-            return
-        if self.pos[1]-p[1]>md:
-            self.up()
-        elif self.pos[1]-p[1]<-md:
-            self.down()
-        if self.pos[0]-p[0]>md:
-            self.left()
-        elif self.pos[0]-p[0]<-md:
-            self.right()
     def collide(self,agent):
         return self.collide_point(agent.pos)
     def collide_point(self,p):
