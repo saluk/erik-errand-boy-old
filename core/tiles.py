@@ -48,6 +48,8 @@ class TileMap(Agent):
         self.tileset_list = [None]
         self.tile_properties = {}
         self.regions = {}
+        self.warps = []
+        self.destinations = {}
         for tileset_raw in self.raw_map.tile_sets:
             props = {}
             for tile in tileset_raw.tiles:
@@ -98,16 +100,29 @@ class TileMap(Agent):
         self.map.append(maplayer)
     def read_object_layer(self,layer):
         for o in layer.objects:
+            r = pygame.Rect([[int(o.x),int(o.y)],[int(o.width),int(o.height)]])
             if o.name=="spawn":
-                self.regions["spawn"] = pygame.Rect([[int(o.x),int(o.y)],[int(o.width),int(o.height)]])
+                self.regions["spawn"] = r
+            elif o.name=="playerspawn":
+                self.regions["playerspawn"] = r
+            elif "warp" in o.properties:
+                map,target = o.properties["warp"].split("_")
+                self.warps.append({"rect":r,"map":map,"warptarget":target})
+            elif "destination" in o.properties:
+                self.destinations[o.properties["destination"]] = r
     def collide(self,agent):
         r = agent.rect()
         for point in ([r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]):
             x,y = [i//32 for i in point]
             if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
-                return 1
+                return Tile()
             col = 0
-            if self.collisions[y][x].collide_point(point):
-                return 1
+            tile = self.collisions[y][x].collide_point(point)
+            if tile:
+                return tile
+        for warp in self.warps:
+            r = warp["rect"]
+            if agent.pos[0]>=r.left and agent.pos[0]<=r.right and agent.pos[1]>=r.top and agent.pos[1]<=r.bottom:
+                return warp
     def get_sprites(self):
         return [layer for layer in self.map]

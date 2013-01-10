@@ -41,7 +41,20 @@
    eJzt0jEKACAMQ9Eq1PsfWRdBpRQchCD/QfZAYoZXqu9RMvus3ZQ6Rl0U+mV7nnurbo87RWi/6Fs+0pLv8T8AAAAAP+iLowD8
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="40" height="30">
+ <objectgroup name="regions" width="40" height="30">
   <object name="spawn" x="128" y="192" width="448" height="96"/>
+  <object name="playerspawn1" x="277" y="146" width="41" height="26"/>
+ </objectgroup>
+ <objectgroup name="transitions" width="40" height="30">
+  <object x="312" y="254" width="19" height="17">
+   <properties>
+    <property name="destination" value="A"/>
+   </properties>
+  </object>
+  <object x="292" y="300" width="57" height="25">
+   <properties>
+    <property name="warp" value="castle_A"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

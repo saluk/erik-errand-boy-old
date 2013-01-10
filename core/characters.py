@@ -35,20 +35,28 @@ class Player(Agent):
         self.vector = [0,0]
     def walk(self):
         moved = False
+        col1=col2=None
         if self.vector[0]:
             self.pos[0]+=self.vector[0]*self.walk_speed
-            if self.world.collide(self):
+            col1 = self.world.collide(self)
+            if col1:
                 self.pos[0]-=self.vector[0]*self.walk_speed
             else:
                 self.facing = [self.vector[0],0]
                 moved = True
         if self.vector[1]:
             self.pos[1]+=self.vector[1]*self.walk_speed
-            if self.world.collide(self):
+            col2 = self.world.collide(self)
+            if col2:
                 self.pos[1]-=self.vector[1]*self.walk_speed
             else:
                 self.facing = [0,self.vector[1]]
                 moved = True
+        for col in col1,col2:
+            if col:
+                if isinstance(col,dict):
+                    if "warptarget" in col:
+                        self.world.change_map(self,col["map"],col["warptarget"])
         if moved:
             self.animating = True
     def left(self):

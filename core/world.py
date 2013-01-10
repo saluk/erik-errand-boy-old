@@ -20,6 +20,8 @@ class World(object):
         """Add an object to the scene"""
         self.objects.append(o)
         o.world = self
+    def remove(self,o):
+        self.objects.remove(o)
     def start(self):
         """Code that runs when a world starts, base world
         doesn't need to do anything"""
