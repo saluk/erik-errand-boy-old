@@ -48,4 +48,7 @@
    eJztlQEKgCAMRbOw+x+ow1WY8JEt11YLag8+CRp7TK1hCIIgCIJ3SblkJFLn6jovKBf04XyfBmsngU87b2FJJT039OP6SHnWp8YJ08PidxX0kfi90T9q3ANrTkf2cd4yg9d0g1/1ku5t2z+qJndWk8FR2j+uJhdL/zScnT8Ka/80cHdS0j8vP3z21nrub1vzye+fhrN7IXnHy08Tz/39op8X+P+SxNvv76wzUBPZ
   </data>
  </layer>
+ <objectgroup name="spawns" width="40" height="30">
+  <object name="spawn" x="704" y="576" width="160" height="128"/>
+ </objectgroup>
 </map>

@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
-  <image source="../art/tiles.png" width="512" height="512"/>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="castle.tsx"/>
+ <tileset firstgid="257" source="terrain_atlas.tsx"/>
+ <tileset firstgid="1281" source="collisions.tsx"/>
+ <tileset firstgid="2305" name="base_out_atlas" tilewidth="32" tileheight="32">
+  <image source="../art/tiles/base_out_atlas.png" width="1024" height="1024"/>
  </tileset>
- <layer name="Tile Layer 1" width="20" height="10">
+ <layer name="floor1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYKIyZqQS5hjk5lHbv6PmkYdZoJja6RiEAbObARM=
+   eJzt0VEKgCAQRVGX2RLcWbqCdAXVrjIYYjCM+mgyuAfut4/Rubahqjd/2OelXvbpe42lJEV3vucXt9VvTmpf7mSfV9X7/EVW9j8NUqoKjaLhPn2zu2X2HebS8rDVcB8AAAAAvGUDfpZAMQ==
   </data>
  </layer>
+ <layer name="wall1" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
+  </data>
+ </layer>
+ <layer name="decoration1" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzsENABAUREG9KkFNdEB9fgEiccBlJtnLnl5K3FRj7XfERo+NxZ9fhxwqvwMAAACAZybstQON
+  </data>
+ </layer>
+ <layer name="floor2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
+  </data>
+ </layer>
+ <layer name="wall2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt07EJACAMRNEMJ04gzuBwDmkau8RST/gPrkpzHMQsNpOoiLoo9DttlW2q0Bt4RekHot8snprcbncfQZqnJ7cdAAAAAPjdAosJG5U=
+  </data>
+ </layer>
+ <layer name="decoration2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
+  </data>
+ </layer>
+ <layer name="COLLISIONS" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0jEKACAMQ9Eq1PsfWRdBpRQchCD/QfZAYoZXqu9RMvus3ZQ6Rl0U+mV7nnurbo87RWi/6Fs+0pLv8T8AAAAAP+iLowD8
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="40" height="30">
+  <object name="spawn" x="128" y="192" width="448" height="96"/>
+ </objectgroup>
 </map>

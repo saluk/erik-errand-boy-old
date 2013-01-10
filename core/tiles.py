@@ -47,6 +47,7 @@ class TileMap(Agent):
 
         self.tileset_list = [None]
         self.tile_properties = {}
+        self.regions = {}
         for tileset_raw in self.raw_map.tile_sets:
             props = {}
             for tile in tileset_raw.tiles:
@@ -66,30 +67,39 @@ class TileMap(Agent):
                     y+=1
 
         self.map = []
-        row = []
-        for i,layer in enumerate(self.raw_map.layers):
-            maplayer = TileLayer()
-            maplayer.layer = i
-            x=y=0
-            for ti in layer.decoded_content:
-                tile = Tile()
-                tile.index = ti
-                tile.surface = self.tileset_list[tile.index]
-                tile.pos = [x*32,y*32]
-                for k,v in self.tile_properties.get(ti,{}).items():
-                    setattr(tile,k,v)
-                row.append(tile)
-                x+=1
-                if x>=layer.width:
-                    x=0
-                    y+=1
-                    maplayer.tiles.append(row)
-                    row = []
-            self.map.append(maplayer)
-            self.map_width = len(maplayer.tiles[0])
-            self.map_height = len(maplayer.tiles)
+        for layer in self.raw_map.layers:
+            if hasattr(layer,"decoded_content"):
+                self.read_tile_layer(layer)
+            else:
+                self.read_object_layer(layer)
         self.collisions = self.map[-1].tiles
         del self.map[-1]
+        self.map_width = len(self.map[0].tiles[0])
+        self.map_height = len(self.map[0].tiles)
+    def read_tile_layer(self,layer):
+        maplayer = TileLayer()
+        maplayer.layer = len(self.map)
+        x=y=0
+        row = []
+        for ti in layer.decoded_content:
+            tile = Tile()
+            tile.index = ti
+            tile.surface = self.tileset_list[tile.index]
+            tile.pos = [x*32,y*32]
+            for k,v in self.tile_properties.get(ti,{}).items():
+                setattr(tile,k,v)
+            row.append(tile)
+            x+=1
+            if x>=layer.width:
+                x=0
+                y+=1
+                maplayer.tiles.append(row)
+                row = []
+        self.map.append(maplayer)
+    def read_object_layer(self,layer):
+        for o in layer.objects:
+            if o.name=="spawn":
+                self.regions["spawn"] = pygame.Rect([[int(o.x),int(o.y)],[int(o.width),int(o.height)]])
     def collide(self,agent):
         r = agent.rect()
         for point in ([r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]):

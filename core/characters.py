@@ -25,6 +25,7 @@ class Player(Agent):
                 frames.append(self.graphics.subsurface([[x*32,y*48],[32,48]]))
             self.anims[order[y]] = frames
     def draw(self,engine,offset=[0,0]):
+        pygame.draw.circle(engine.surface,[0,0,0,50],[self.pos[0]-offset[0],self.pos[1]-offset[1]+16],6)
         super(Player,self).draw(engine,offset)
         x,y = (self.pos[0])//32*32-offset[0],(self.pos[1])//32*32-offset[1]
         w,h = 32,32

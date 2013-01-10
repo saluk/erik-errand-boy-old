@@ -7,7 +7,11 @@ from characters import Player
 class GameWorld(World):
     def start(self):
         self.map = TileMap()
-        self.map.load("dat/castle.tmx")
+        self.maps = {}
+        for map in "castle","room1":
+            self.maps[map] = TileMap()
+            self.maps[map].load("dat/%s.tmx"%map)
+        self.map = self.maps["room1"]
         
         self.camera = self.offset
         
@@ -20,11 +24,11 @@ class GameWorld(World):
             art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
             f = random.choice(art)
             self.player.load("art/sprites/"+f)
-            self.player.pos = [random.randint(22*32,26*32),random.randint(17*32,21*32)]
+            spawn = self.map.regions["spawn"]
+            self.player.pos = [random.randint(spawn.left,spawn.right),random.randint(spawn.top,spawn.bottom)]
             random.choice([self.player.up,self.player.down,self.player.left,self.player.right])()
             self.player.idle()
             self.add(self.player)
-        self.player.pos = [20*32,17*32]
         self.player.load("art/sprites/erik.png")
         
         self.camera_focus = self.player
