@@ -35,10 +35,7 @@ class GameWorld(World):
         self.camera_focus = self.player
         
         self.player.menu = Radial()
-        for text in ["Talk","Follow","Hit","Get","Stuff"]:
-            t = Text()
-            t.set_text(text)
-            self.player.menu.options.append(t)
+        self.player.menu.layer = 10
         self.player.menu.pos = self.player.pos
         self.add(self.player.menu)
         
@@ -73,6 +70,7 @@ class GameWorld(World):
         self.sprites.sort(key=lambda sprite:(sprite.layer,sprite.pos[1]))
         
         self.focus_camera()
+        self.player.menu.pos = self.player.pos
     def collide(self,agent):
         for ob in self.get_objects(agent):
             if ob==agent:
@@ -89,16 +87,28 @@ class GameWorld(World):
                 return col
     def input(self,controller):
         self.player.idle()
-        if controller.left:
-            self.player.left()
-        if controller.right:
-            self.player.right()
-        if controller.up:
-            self.player.up()
-        if controller.down:
-            self.player.down()
-        if controller.action:
-            self.player.action()
+        if controller.menu:
+            self.player.menu.visible = not self.player.menu.visible
+        if self.player.menu.visible:
+            if controller.left:
+                controller.left = False
+                self.player.menu.rotate_left()
+            if controller.right:
+                controller.right = False
+                self.player.menu.rotate_right()
+            if controller.action:
+                self.player.menu.action()
+        else:
+            if controller.left:
+                self.player.left()
+            if controller.right:
+                self.player.right()
+            if controller.up:
+                self.player.up()
+            if controller.down:
+                self.player.down()
+            if controller.action:
+                self.player.action()
     def ai(self):
         for ob in self.objects:
             if isinstance(ob,Player) and not ob==self.player:

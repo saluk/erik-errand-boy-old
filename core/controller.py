@@ -22,6 +22,7 @@ class Controller:
     def input(self):
         self.mbdown = 0
         self.action = 0
+        self.menu = 0
         engine = self.engine
         pygame.event.pump()
         for e in pygame.event.get():
@@ -70,6 +71,8 @@ class Controller:
                 self.down = 1
             if e.key == pygame.K_z:
                 self.action = 1
+            if e.key == pygame.K_x:
+                self.menu = 1
         elif e.type == pygame.KEYUP:
             if e.key == pygame.K_LEFT:
                 self.left = 0
@@ -79,3 +82,5 @@ class Controller:
                 self.up = 0
             elif e.key == pygame.K_DOWN:
                 self.down = 0
+            elif e.key == pygame.K_x:
+                self.menu = 0

@@ -23,6 +23,8 @@ class Player(Agent):
         
         self.last_random_point = None
         self.next_random_point = 0
+        
+        self.menu = None
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -83,13 +85,21 @@ class Player(Agent):
         if moved:
             self.animating = True
     def frobme(self,actor):
-        if not self.following:
-            self.following = actor
-            #self.world.camera_focus = self
-        else:
-            self.following = None
-            self.following_points = []
-            #self.world.camera_focus = actor
+        if actor.menu:
+            options = []
+            if self.following==actor:
+                options.append( ("'Stop'",self.action_unfollow,(actor,None)) )
+            else:
+                options.append( ("'follow me!'",self.action_follow,(actor,None)) )
+                options.append( ("pickpocket",self.action_pickpocket,(actor,None)) )
+            actor.menu.setup(options)
+    def action_follow(self,actor,item):
+        self.following = actor
+    def action_unfollow(self,actor,item):
+        self.following = None
+        self.following_points = []
+    def action_pickpocket(self,actor,item):
+        pass
     def action(self):
         """Interact with object in front of us"""
         p = self.pos[:]
