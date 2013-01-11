@@ -16,9 +16,10 @@ class GameWorld(World):
     def start(self):
         
         self.maps = {}
-        for map in "castle","room1":
+        for map in "castle","room1","erikbedroom":
             self.maps[map] = TileMap()
             self.maps[map].load("dat/%s.tmx"%map)
+            self.maps[map].name = map
         
         self.camera = self.offset
         
@@ -29,9 +30,11 @@ class GameWorld(World):
                 spawn = self.maps[mapkey].regions["playerspawn"]
                 self.player = self.add_character(map=mapkey,sprite="art/sprites/erik.png",pos=[spawn.x+16,spawn.y+16],direction="down")
                 self.map = self.maps[mapkey]
-                self.engine.play_music("music/"+songs.get(mapkey,songs["default"])+".mp3")
+                self.map_music()
             for i in range(5):
-                spawn = self.maps[mapkey].regions["spawn"]
+                spawn = self.maps[mapkey].regions.get("spawn",None)
+                if not spawn:
+                    continue
                 pos = [random.randint(spawn.left,spawn.right),random.randint(spawn.top,spawn.bottom)]
                 direction = random.choice(["up","down","left","right"])
                 art = [x for x in os.listdir("art/sprites") if x.endswith(".png")]
@@ -59,7 +62,14 @@ class GameWorld(World):
         target = self.maps[map].destinations[target]
         character.pos = [target.left,target.top]
         if character == self.camera_focus:
-            self.engine.play_music("music/"+songs.get(map,songs["default"])+".mp3")
+            self.map = self.maps[map]
+            self.map_music()
+    def map_music(self):
+        song = songs.get(self.map.name,songs["default"])
+        if song:
+            song = "music/"+song+".mp3"
+        print song
+        self.engine.play_music(song)
     def get_objects(self,agent):
         return [self.maps[agent.map]] + [o for o in self.objects if (not hasattr(o,"map") or o.map==agent.map)]
     def update(self):

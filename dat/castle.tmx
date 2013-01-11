@@ -50,7 +50,7 @@
  </layer>
  <objectgroup name="spawns" width="40" height="30">
   <object name="spawn" x="718" y="571" width="135" height="119"/>
-  <object name="playerspawn" x="608" y="544" width="32" height="32"/>
+  <object name="playerspawn1" x="608" y="544" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="transitions" width="40" height="30">
   <object x="703" y="486" width="62" height="34">

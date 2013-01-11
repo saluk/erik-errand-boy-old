@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="warp" color="#a400a1"/>
+ <objecttype name="warptarget" color="#a40031"/>
+</objecttypes>

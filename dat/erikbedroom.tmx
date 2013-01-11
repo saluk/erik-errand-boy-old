@@ -8,7 +8,7 @@
  </tileset>
  <layer name="floor1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztktEJgDAMBTNGR3MC6QSupE5gnUDdyhYDhqpVhJSK7+Do7/EaomuqyNL4Qp9lS+mTe7Vex/Z03PPMnH2D6BtvuupMfVYY99mEDb/ahD/tWBfZJTS03YA2crOnGto3/nNfuJ/JO790Ue4DAAAAAAAAAE1W0KdG1Q==
+   eJztzsENgCAUBFHKpAQ7AysQK1C6EsI/GRIIiXtxXjKXPa1z+BO/GP+abTGVYMXJdkvlsNJkp6X8d5XuV6mz1bL4X+/bqCz8BwAAAABfeQAibzhB
   </data>
  </layer>
  <layer name="wall1" width="40" height="30">
@@ -18,7 +18,7 @@
  </layer>
  <layer name="decoration1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzsENABAUREG9KkFNdEB9fgEiccBlJtnLnl5K3FRj7XfERo+NxZ9fhxwqvwMAAACAZybstQON
+   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
   </data>
  </layer>
  <layer name="floor2" width="40" height="30">
@@ -28,7 +28,7 @@
  </layer>
  <layer name="wall2" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt08EJACEMRFFbW5CtYLEGi7NI3askSA6jHv6DOQXCEDQlW3NyC6vL6X6rW3k33XXj55Idyt30O78jujvy7tX9rP+YR15nNkfZ71eNfCPFmc1R9wMAAAAAlQ7Z5SO6
+   eJzt08EJACAIBdBWa5uGa8joHHaoEIL3wJOo/2IpvNQPK0tNmjkl3x357sxb0X9Gv5uZrwW167V1DQAAwHcGOz4ZIQ==
   </data>
  </layer>
  <layer name="decoration2" width="40" height="30">
@@ -38,46 +38,36 @@
  </layer>
  <layer name="COLLISIONS" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1EsKwCAMRdFY0f0vuXYgaChVC4kO7oFAUdHnh4rAypX62q3NUL/bbDMZLffxlm9m7ac9Opzz6D51vx7rke+EOSzn3pEvLKzp+f5qpVL54+2d9h8CAAAAgD9utmsBiQ==
+   eJzt0sEJACAMA8AquP/KTiBKwaJwB32W5JEI4FQfuavsV/GT9WO/tsmv7rfa1wv7AwAAuGUCP+0A7g==
   </data>
  </layer>
  <objectgroup name="regions" width="40" height="30">
-  <object name="playerspawn1" x="277" y="146" width="41" height="26"/>
+  <object name="playerspawn" x="288" y="224" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="transitions" width="40" height="30">
-  <object type="warptarget" x="321" y="264" width="11" height="9">
+  <object type="warptarget" x="336" y="301" width="15" height="13">
    <properties>
     <property name="destination" value="A"/>
    </properties>
   </object>
-  <object type="warp" x="292" y="300" width="57" height="25">
+  <object type="warp" x="320" y="320" width="32" height="32">
    <properties>
-    <property name="warp" value="castle_A"/>
-   </properties>
-  </object>
-  <object name="erikbedroom" type="warp" x="576" y="128" width="32" height="32">
-   <properties>
-    <property name="warp" value="erikbedroom_A"/>
-   </properties>
-  </object>
-  <object type="warptarget" x="593" y="184" width="11" height="9">
-   <properties>
-    <property name="destination" value="B"/>
+    <property name="warp" value="room1_B"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="chests" width="40" height="30">
-  <object name="shelf" x="256" y="96" width="32" height="32">
+  <object name="shelf" x="192" y="448" width="32" height="32">
    <properties>
     <property name="chest" value="Study of Emeralds"/>
    </properties>
   </object>
-  <object name="shelf" x="288" y="96" width="32" height="32">
+  <object name="shelf" x="288" y="480" width="32" height="32">
    <properties>
     <property name="chest" value="Dark Days"/>
    </properties>
   </object>
-  <object name="Sign" x="448" y="160" width="32" height="32">
+  <object name="Sign" x="448" y="448" width="32" height="32">
    <properties>
     <property name="sign" value="The design must mean something to someone."/>
    </properties>
