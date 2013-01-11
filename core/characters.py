@@ -1,6 +1,11 @@
 import pygame
+import random
 
 from agents import Agent
+
+class Item(Agent):
+    def init(self):
+        self.name = "DummyItem"
 
 class Player(Agent):
     def init(self):
@@ -23,6 +28,15 @@ class Player(Agent):
         
         self.last_random_point = None
         self.next_random_point = 0
+        
+        self.items = []
+        names = ["apple","bananna","handkerchief","gloves","axe","sword","bucket","ring","bracelet","knife","coins","note","booklet","glass","leaflet"]
+        for i in range(random.randint(1,4)):
+            name = random.choice(names)
+            names.remove(name)
+            item = Item()
+            item.name = name
+            self.items.append(item)
         
         self.menu = None
     def load(self,spritesheet):
@@ -99,7 +113,14 @@ class Player(Agent):
         self.following = None
         self.following_points = []
     def action_pickpocket(self,actor,item):
-        pass
+        if actor.menu:
+            options = []
+            for i in self.items:
+                options.append( (i.name,self.action_pickitem,(actor,i)) )
+            actor.menu.setup(options)
+    def action_pickitem(self,actor,item):
+        actor.items.append(item)
+        self.items.remove(item)
     def action(self):
         """Interact with object in front of us"""
         p = self.pos[:]

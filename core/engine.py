@@ -41,7 +41,7 @@ class Engine:
         self.make_screen()
         self.running = True
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font("fonts/vera.ttf",12)
+        self.font = pygame.font.Font("fonts/vera.ttf",8)
     def stop(self):
         self.running = False
         pygame.quit()

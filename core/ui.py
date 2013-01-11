@@ -5,7 +5,7 @@ from agents import Agent,Text
 class Radial(Agent):
     def init(self):
         self.options = []
-        self.radius = 60
+        self.radius = 48
     def draw(self,engine,offset=[0,0]):
         if not self.options:
             self.visible = False
@@ -39,7 +39,7 @@ class Radial(Agent):
             self.options.append(t)
         self.visible = True
     def action(self):
+        self.visible = False
         o = self.options[0]
         if hasattr(o,"command"):
             o.command(*o.args)
-        self.visible = False

@@ -75,12 +75,16 @@ class GameWorld(World):
         for ob in self.get_objects(agent):
             if ob==agent:
                 continue
+            if not hasattr(ob,"collide"):
+                continue
             col = ob.collide(agent)
             if col:
                 return col
     def collide_point(self,agent,p):
         for ob in self.get_objects(agent):
             if ob==agent:
+                continue
+            if not hasattr(ob,"collide_point"):
                 continue
             col = ob.collide_point(p)
             if col:
