@@ -3,7 +3,7 @@ import random
 
 from agents import Agent
 from items import Item
-from ui import Textbox
+from ui import Textbox,PopupText
 
 class Player(Agent):
     def init(self):
@@ -194,7 +194,7 @@ class Player(Agent):
         if self.frame>=len(anim):
             self.frame = 0
         self.surface = anim[self.frame]
-    def update(self,dt):
+    def update(self,world):
         if self.vector[0] or self.vector[1]:
             self.walk()
             
@@ -224,6 +224,12 @@ class Player(Agent):
             if self.distance(t)>18:
                 t.menu.disable()
                 self.pickpocketing = None
+                pu = PopupText()
+                pu.pos = self.pos[:]
+                pu.text = "!"
+                pu.focus = self
+                self.world.add(pu)
+                
     def collide(self,agent,flags=None):
         return self.collide_point(agent.pos,flags)
     def collide_point(self,p,flags=None):

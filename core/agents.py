@@ -35,6 +35,7 @@ class Agent(object):
         self.gfd = {}
         self.gft = {}
         self.layer = 2
+        self.kill = 0
         self.init()
     def get_sprites(self):
         return [self]
@@ -71,10 +72,12 @@ class Agent(object):
         
 class Text(Agent):
     font = "font"
-    def set_text(self,text,color=[0,255,0]):
+    def init(self):
         self.surface = None
-        self.text = text
+        self.color = [0,255,0]
+    def set_text(self,text,color=[0,255,0]):
         self.color = color
+        self.text = text
         return self
     def render(self,engine):
         if not self.surface:

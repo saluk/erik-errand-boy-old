@@ -74,6 +74,7 @@ class GameWorld(World):
         else:
             for o in self.objects:
                 o.update(self)
+            self.objects = [o for o in self.objects if not o.kill]
         for o in self.get_objects(self.camera_focus):
             if o.visible:
                 self.sprites.extend(o.get_sprites())
