@@ -66,3 +66,16 @@ class Agent(object):
     def collide(self,agent):
         """How to collide with another agent (usually the player)"""
         return
+        
+class Text(Agent):
+    def set_text(self,text):
+        self.surface = None
+        self.text = text
+        return self
+    def render(self,engine):
+        if not self.surface:
+            self.surface = engine.font.render(self.text,1,[0,255,0])
+    def draw(self,engine,offset=[0,0]):
+        if not self.surface:
+            self.render(engine)
+        super(Text,self).draw(engine,offset)

@@ -5,6 +5,9 @@ from tiles import TileMap
 from characters import Player
 from aicontroller import AIController
 
+from ui import Radial
+from agents import Text
+
 class GameWorld(World):
     def start(self):
         self.maps = {}
@@ -30,6 +33,15 @@ class GameWorld(World):
                 self.add_character(map=mapkey,sprite=sprite,pos=pos,direction=direction)
         
         self.camera_focus = self.player
+        
+        self.player.menu = Radial()
+        for text in ["Talk","Follow","Hit","Get","Stuff"]:
+            t = Text()
+            t.set_text(text)
+            self.player.menu.options.append(t)
+        self.player.menu.pos = self.player.pos
+        self.add(self.player.menu)
+        
     def add_character(self,map,sprite,pos,direction):
         p = Player()
         p.map = map
@@ -45,7 +57,7 @@ class GameWorld(World):
         target = self.maps[map].destinations[target]
         character.pos = [target.left,target.top]
     def get_objects(self,agent):
-        return [self.maps[agent.map]] + [o for o in self.objects if o.map==agent.map]
+        return [self.maps[agent.map]] + [o for o in self.objects if (not hasattr(o,"map") or o.map==agent.map)]
     def update(self):
         """self.sprites starts empty, any object added to the list during
         update() is going to be rendered"""
