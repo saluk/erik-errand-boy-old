@@ -61,10 +61,10 @@ class Engine:
     def play_music(self,music):
         if music==self.music_playing:
             return
+        self.music_playing = music
         if not music:
             pygame.mixer.music.stop()
             return
-        self.music_playing = music
         pygame.mixer.music.load(music)
         pygame.mixer.music.play(-1)
     def play_sound(self,sound):
