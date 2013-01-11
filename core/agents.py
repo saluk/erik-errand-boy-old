@@ -68,13 +68,15 @@ class Agent(object):
         return
         
 class Text(Agent):
-    def set_text(self,text):
+    font = "font"
+    def set_text(self,text,color=[0,255,0]):
         self.surface = None
         self.text = text
+        self.color = color
         return self
     def render(self,engine):
         if not self.surface:
-            self.surface = engine.font.render(self.text,1,[0,255,0])
+            self.surface = getattr(engine,self.font).render(self.text,1,self.color)
     def draw(self,engine,offset=[0,0]):
         if not self.surface:
             self.render(engine)

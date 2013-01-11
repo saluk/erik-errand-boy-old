@@ -52,6 +52,8 @@ class Radial(Agent):
 class Textbox(Agent):
     def init(self):
         self.text = Text()
+        self.text.color = [255,255,255]
+        self.text.font = "bigfont"
         self.said = ""
         self.to_say = "   "
         self.layer = 11
