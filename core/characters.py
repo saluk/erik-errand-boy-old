@@ -110,6 +110,7 @@ class Player(Agent):
             else:
                 options.append( ("'follow me!'",self.action_follow,(actor,None)) )
                 options.append( ("pickpocket",self.action_pickpocket,(actor,None)) )
+                options.append( ("slip in pocket",self.action_putpocket,(actor,None)) )
             actor.menu.setup(options)
     def mymenu(self):
         if not self.menu:
@@ -140,9 +141,18 @@ class Player(Agent):
             for i in self.items:
                 options.append( (i.name,self.action_pickitem,(actor,i)) )
             actor.menu.setup(options)
+    def action_putpocket(self,actor,item):
+        if actor.menu:
+            options = []
+            for i in actor.items:
+                options.append( (i.name,self.action_putitem,(actor,i)) )
+            actor.menu.setup(options)
     def action_pickitem(self,actor,item):
         actor.items.append(item)
         self.items.remove(item)
+    def action_putitem(self,actor,item):
+        self.items.append(item)
+        actor.items.remove(item)
     def action(self):
         """Interact with object in front of us"""
         p = self.pos[:]
