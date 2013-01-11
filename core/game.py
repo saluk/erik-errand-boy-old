@@ -1,5 +1,7 @@
 import os,random
 
+import pygame
+
 from world import World
 from tiles import TileMap
 from characters import Player
@@ -8,8 +10,11 @@ from aicontroller import AIController
 from ui import Radial
 from agents import Text
 
+songs = {"castle":"CornFields","room1":"Village","default":None}
+
 class GameWorld(World):
     def start(self):
+        
         self.maps = {}
         for map in "castle","room1":
             self.maps[map] = TileMap()
@@ -24,6 +29,7 @@ class GameWorld(World):
                 spawn = self.maps[mapkey].regions["playerspawn"]
                 self.player = self.add_character(map=mapkey,sprite="art/sprites/erik.png",pos=[spawn.x+16,spawn.y+16],direction="down")
                 self.map = self.maps[mapkey]
+                self.engine.play_music("music/"+songs.get(mapkey,songs["default"])+".mp3")
             for i in range(5):
                 spawn = self.maps[mapkey].regions["spawn"]
                 pos = [random.randint(spawn.left,spawn.right),random.randint(spawn.top,spawn.bottom)]
@@ -52,6 +58,8 @@ class GameWorld(World):
         character.map = map
         target = self.maps[map].destinations[target]
         character.pos = [target.left,target.top]
+        if character == self.camera_focus:
+            self.engine.play_music("music/"+songs.get(map,songs["default"])+".mp3")
     def get_objects(self,agent):
         return [self.maps[agent.map]] + [o for o in self.objects if (not hasattr(o,"map") or o.map==agent.map)]
     def update(self):

@@ -43,6 +43,7 @@ class Radial(Agent):
             t.args = option_args
             self.options.append(t)
         self.visible = True
+        self.world.engine.play_sound("mario_bounce")
     def action(self):
         self.visible = False
         o = self.options[0]

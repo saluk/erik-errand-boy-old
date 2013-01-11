@@ -34,6 +34,7 @@ class Engine:
         self.clock = None
         self.world = None   #Change what world is set to to change between scenes or modes
         self.next_tick = 0.0
+        self.music_playing = ""
     def start(self):
         """Separate from __init__ in case we want to make the object before making the screen"""
         pygame.init()
@@ -41,7 +42,7 @@ class Engine:
         self.make_screen()
         self.running = True
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font("fonts/vera.ttf",8)
+        self.font = pygame.font.Font("fonts/vera.ttf",10)
         self.bigfont = pygame.font.Font("fonts/vera.ttf",12)
     def stop(self):
         self.running = False
@@ -57,6 +58,17 @@ class Engine:
             while self.next_tick>0:
                 self.next_tick -= 1
                 self.world.update()
+    def play_music(self,music):
+        if music==self.music_playing:
+            return
+        if not music:
+            pygame.mixer.music.stop()
+        self.music_playing = music
+        pygame.mixer.music.load(music)
+        pygame.mixer.music.play(-1)
+    def play_sound(self,sound):
+        sound = pygame.mixer.Sound("sounds/"+sound+".wav")
+        sound.play()
     def make_screen(self):
         flags = pygame.RESIZABLE|pygame.FULLSCREEN*self.fullscreen
         pygame.display.set_icon(pygame.image.load("art/icons/ico.png"))
