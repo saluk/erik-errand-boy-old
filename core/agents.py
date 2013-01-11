@@ -66,6 +66,8 @@ class Agent(object):
     def collide(self,agent,flags=None):
         """How to collide with another agent (usually the player)"""
         return
+    def distance(self,agent):
+        return math.sqrt((agent.pos[0]-self.pos[0])**2+(agent.pos[1]-self.pos[1])**2)
         
 class Text(Agent):
     font = "font"

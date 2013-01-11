@@ -7,6 +7,7 @@ class Radial(Agent):
         self.options = []
         self.radius = 0
         self.target_radius = 48
+        self.pause = False
     def update(self,dt):
         if self.radius<self.target_radius:
             self.radius += 4
@@ -33,7 +34,7 @@ class Radial(Agent):
         self.options.append(self.options.pop(0))
     def rotate_left(self):
         self.options.insert(0,self.options.pop(-1))
-    def setup(self,options):
+    def setup(self,options,pause=True):
         self.radius = 0
         self.options = []
         for option_text,option_command,option_args in options:
@@ -42,10 +43,15 @@ class Radial(Agent):
             t.command = option_command
             t.args = option_args
             self.options.append(t)
-        self.visible = True
+        self.enable()
+        self.pause = pause
+    def enable(self):
         self.world.engine.play_sound("mario_bounce")
-    def action(self):
+        self.visible = True
+    def disable(self):
         self.visible = False
+    def action(self):
+        self.disable()
         o = self.options[0]
         if hasattr(o,"command"):
             o.command(*o.args)

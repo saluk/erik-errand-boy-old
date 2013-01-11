@@ -38,6 +38,8 @@ class Player(Agent):
         
         self.menu = None
         self.texter = None
+        
+        self.pickpocketing = None
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -144,7 +146,8 @@ class Player(Agent):
             options = []
             for i in self.items:
                 options.append( (i.name,self.action_pickitem,(actor,i)) )
-            actor.menu.setup(options)
+            actor.menu.setup(options,pause=False)
+        self.pickpocketing = actor
     def action_putpocket(self,actor,item):
         if actor.menu:
             options = []
@@ -213,6 +216,14 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
+            
+        if self.pickpocketing:
+            t = self.pickpocketing
+            #Check if we can see the target
+            #Check if the distance is too great
+            if self.distance(t)>18:
+                t.menu.disable()
+                self.pickpocketing = None
     def collide(self,agent,flags=None):
         return self.collide_point(agent.pos,flags)
     def collide_point(self,p,flags=None):

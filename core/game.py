@@ -69,8 +69,11 @@ class GameWorld(World):
         self.ai()
         for m in self.maps.values():
             m.update(self)
-        for o in self.objects:
-            o.update(self)
+        if self.player.menu.visible and self.player.menu.pause:
+            self.player.menu.update(self)
+        else:
+            for o in self.objects:
+                o.update(self)
         for o in self.get_objects(self.camera_focus):
             if o.visible:
                 self.sprites.extend(o.get_sprites())
