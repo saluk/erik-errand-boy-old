@@ -49,14 +49,19 @@ class Frober(Agent):
                 item = Item()
                 item.name = name
                 self.items.append(item)
-            self.frobme = self.frob_chest
-            print self.frobme
+    def frobme(self,actor):
+        if hasattr(self,"chest"):
+            self.frob_chest(actor)
+        if hasattr(self,"sign"):
+            self.frob_sign(actor)
     def frob_chest(self,actor):
         if actor.menu:
             options = []
             for i in self.items:
                 options.append( (i.name,self.action_pickitem,(actor,i)) )
             actor.menu.setup(options)
+    def frob_sign(self,actor):
+        actor.say(self.sign)
     def action_pickitem(self,actor,item):
         actor.items.append(item)
         self.items.remove(item)
@@ -143,7 +148,7 @@ class TileMap(Agent):
                 self.warps.append({"rect":r,"map":map,"warptarget":target})
             elif "destination" in o.properties:
                 self.destinations[o.properties["destination"]] = r
-            elif "chest" in o.properties:
+            elif "chest" in o.properties or "sign" in o.properties:
                 f = Frober()
                 f.pos = [r.left,r.top]
                 f.right,f.bottom = r.right,r.bottom

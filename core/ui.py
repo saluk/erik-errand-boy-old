@@ -48,3 +48,21 @@ class Radial(Agent):
         o = self.options[0]
         if hasattr(o,"command"):
             o.command(*o.args)
+
+class Textbox(Agent):
+    def init(self):
+        self.text = Text()
+        self.said = ""
+        self.to_say = "   "
+        self.layer = 11
+        self.finished = False
+    def update(self,dt):
+        self.pos = [0,255]
+        if len(self.said)<len(self.to_say):
+            self.said = self.to_say[:len(self.said)+1]
+            self.text.text = self.said
+            self.text.surface = None
+        else:
+            self.finished = True
+    def draw(self,engine,offset=[0,0]):
+        self.text.draw(engine)

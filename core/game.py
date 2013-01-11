@@ -90,8 +90,11 @@ class GameWorld(World):
                 return col
     def input(self,controller):
         self.player.idle()
-        if controller.menu:
-            self.player.menu.visible = not self.player.menu.visible
+        if self.player.texter:
+            if self.player.texter.finished and (controller.action or controller.menu):
+                self.remove(self.player.texter)
+                self.player.texter = None
+            return
         if self.player.menu.visible:
             if controller.left:
                 controller.left = False
@@ -101,17 +104,21 @@ class GameWorld(World):
                 self.player.menu.rotate_right()
             if controller.action:
                 self.player.menu.action()
-        else:
-            if controller.left:
-                self.player.left()
-            if controller.right:
-                self.player.right()
-            if controller.up:
-                self.player.up()
-            if controller.down:
-                self.player.down()
-            if controller.action:
-                self.player.action()
+            if controller.menu:
+                self.player.menu.visible = False
+            return
+        if controller.left:
+            self.player.left()
+        if controller.right:
+            self.player.right()
+        if controller.up:
+            self.player.up()
+        if controller.down:
+            self.player.down()
+        if controller.action:
+            self.player.action()
+        if controller.menu:
+            self.player.mymenu()
     def ai(self):
         for ob in self.objects:
             if isinstance(ob,Player) and not ob==self.player:

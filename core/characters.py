@@ -3,6 +3,7 @@ import random
 
 from agents import Agent
 from items import Item
+from ui import Textbox
 
 class Player(Agent):
     def init(self):
@@ -36,6 +37,7 @@ class Player(Agent):
             self.items.append(item)
         
         self.menu = None
+        self.texter = None
     def load(self,spritesheet):
         super(Player,self).load(spritesheet)
         self.anims = {}
@@ -95,6 +97,11 @@ class Player(Agent):
         
         if moved:
             self.animating = True
+    def say(self,text):
+        self.texter = Textbox()
+        self.texter.to_say = text
+        self.world.add(self.texter)
+        print self.texter,self.texter.to_say,self.texter.said,self.texter.pos
     def frobme(self,actor):
         if actor.menu:
             options = []
@@ -104,6 +111,24 @@ class Player(Agent):
                 options.append( ("'follow me!'",self.action_follow,(actor,None)) )
                 options.append( ("pickpocket",self.action_pickpocket,(actor,None)) )
             actor.menu.setup(options)
+    def mymenu(self):
+        if not self.menu:
+            return
+        options = []
+        if self.items:
+            options.append( ("items",self.show_items,(self,None)) )
+        else:
+            options.append( ("no items",self.show_items,(self,None)) )
+        self.menu.setup(options)
+    def show_items(self,actor,item):
+        if not self.menu:
+            returrn
+        options = []
+        for i in self.items:
+            options.append( (i.name,self.examine_item,(self,i)) )
+        self.menu.setup(options)
+    def examine_item(self,actor,item):
+        self.say("The item is named "+item.name)
     def action_follow(self,actor,item):
         self.following = actor
     def action_unfollow(self,actor,item):

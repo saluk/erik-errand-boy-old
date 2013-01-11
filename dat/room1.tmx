@@ -57,4 +57,21 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="chests" width="40" height="30">
+  <object name="shelf" x="256" y="96" width="32" height="32">
+   <properties>
+    <property name="chest" value="Study of Emeralds"/>
+   </properties>
+  </object>
+  <object name="shelf" x="288" y="96" width="32" height="32">
+   <properties>
+    <property name="chest" value="Dark Days"/>
+   </properties>
+  </object>
+  <object name="Sign" x="448" y="160" width="32" height="32">
+   <properties>
+    <property name="sign" value="The design must mean something to someone."/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
