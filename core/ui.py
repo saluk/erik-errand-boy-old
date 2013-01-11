@@ -5,7 +5,11 @@ from agents import Agent,Text
 class Radial(Agent):
     def init(self):
         self.options = []
-        self.radius = 48
+        self.radius = 0
+        self.target_radius = 48
+    def update(self,dt):
+        if self.radius<self.target_radius:
+            self.radius += 4
     def draw(self,engine,offset=[0,0]):
         if not self.options:
             self.visible = False
@@ -30,6 +34,7 @@ class Radial(Agent):
     def rotate_left(self):
         self.options.insert(0,self.options.pop(-1))
     def setup(self,options):
+        self.radius = 0
         self.options = []
         for option_text,option_command,option_args in options:
             t = Text()

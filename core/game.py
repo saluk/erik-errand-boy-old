@@ -49,7 +49,6 @@ class GameWorld(World):
         self.add(p)
         return p
     def change_map(self,character,map,target):
-        print "change map",character,map,target
         character.map = map
         target = self.maps[map].destinations[target]
         character.pos = [target.left,target.top]
@@ -71,22 +70,22 @@ class GameWorld(World):
         
         self.focus_camera()
         self.player.menu.pos = self.player.pos
-    def collide(self,agent):
+    def collide(self,agent,flags=None):
         for ob in self.get_objects(agent):
             if ob==agent:
                 continue
             if not hasattr(ob,"collide"):
                 continue
-            col = ob.collide(agent)
+            col = ob.collide(agent,flags)
             if col:
                 return col
-    def collide_point(self,agent,p):
+    def collide_point(self,agent,p,flags=None):
         for ob in self.get_objects(agent):
             if ob==agent:
                 continue
             if not hasattr(ob,"collide_point"):
                 continue
-            col = ob.collide_point(p)
+            col = ob.collide_point(p,flags)
             if col:
                 return col
     def input(self,controller):

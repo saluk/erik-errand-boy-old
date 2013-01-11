@@ -64,4 +64,11 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="interactables" width="40" height="30">
+  <object name="chest" x="672" y="608" width="32" height="32">
+   <properties>
+    <property name="chest" value="apple,pear,fish"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

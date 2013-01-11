@@ -2,10 +2,7 @@ import pygame
 import random
 
 from agents import Agent
-
-class Item(Agent):
-    def init(self):
-        self.name = "DummyItem"
+from items import Item
 
 class Player(Agent):
     def init(self):
@@ -30,7 +27,7 @@ class Player(Agent):
         self.next_random_point = 0
         
         self.items = []
-        names = ["apple","bananna","handkerchief","gloves","axe","sword","bucket","ring","bracelet","knife","coins","note","booklet","glass","leaflet"]
+        names = Item.names[:]
         for i in range(random.randint(1,4)):
             name = random.choice(names)
             names.remove(name)
@@ -68,7 +65,7 @@ class Player(Agent):
         
         if self.vector[0]:
             self.pos[0]+=self.vector[0]*self.walk_speed
-            col1 = self.world.collide(self)
+            col1 = self.world.collide(self,"move")
             if col1 and not col0:
                 self.pos[0]-=self.vector[0]*self.walk_speed
             else:
@@ -76,7 +73,7 @@ class Player(Agent):
                 moved = True
         if self.vector[1]:
             self.pos[1]+=self.vector[1]*self.walk_speed
-            col2 = self.world.collide(self)
+            col2 = self.world.collide(self,"move")
             if col2 and not col0:
                 self.pos[1]-=self.vector[1]*self.walk_speed
             else:
@@ -127,8 +124,9 @@ class Player(Agent):
         for s in range(3):
             p[0]+=self.facing[0]*8
             p[1]+=self.facing[1]*8
-            col = self.world.collide_point(self,p)
+            col = self.world.collide_point(self,p,"frobme")
             if col:
+                print col,dir(col)
                 if hasattr(col,"frobme"):
                     col.frobme(self)
                 return
@@ -176,9 +174,9 @@ class Player(Agent):
             self.next_frame = self.animdelay
             self.frame += 1
             self.set_animation_frame()
-    def collide(self,agent):
-        return self.collide_point(agent.pos)
-    def collide_point(self,p):
+    def collide(self,agent,flags=None):
+        return self.collide_point(agent.pos,flags)
+    def collide_point(self,p,flags=None):
         radius = self.radius
         left,top,right,bottom = self.pos[0]-radius+1,self.pos[1]-radius+1,self.pos[0]+radius-1,self.pos[1]+radius-1
         if p[0]>=left and p[0]<=right and p[1]>=top and p[1]<=bottom:

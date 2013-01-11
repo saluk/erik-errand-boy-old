@@ -11,9 +11,4 @@
    <property name="chest" value=""/>
   </properties>
  </tile>
- <tile id="249">
-  <properties>
-   <property name="chest" value=""/>
-  </properties>
- </tile>
 </tileset>

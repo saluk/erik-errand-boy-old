@@ -1,6 +1,9 @@
+import random
+
 import pygame
 from tiledtmxloader import tmxreader
 from agents import Agent
+from items import Item
 
 class Tile(Agent):
     def init(self):
@@ -14,7 +17,7 @@ class Tile(Agent):
             s.fill([255,255,255])
             s.set_alpha(50)
             engine.surface.blit(s,[self.pos[0]-offset[0],self.pos[1]-offset[1]])
-    def collide_point(self,point):
+    def collide_point(self,point,flags=None):
         if not self.col:
             return
         top = self.pos[1]
@@ -30,7 +33,36 @@ class Tile(Agent):
         if self.col == "bottom":
             top+=16
         if point[0]>=left and point[0]<=right and point[1]>=top and point[1]<=bottom:
-            return 1
+            return self
+            
+class Frober(Agent):
+    def init_properties(self):
+        if hasattr(self,"chest"):
+            self.items = []
+            if not self.chest:
+                names = Item.names[:]
+                random.sort(names)
+                names = names[:4]
+            else:
+                names = self.chest.split(",")
+            for name in names:
+                item = Item()
+                item.name = name
+                self.items.append(item)
+            self.frobme = self.frob_chest
+            print self.frobme
+    def frob_chest(self,actor):
+        if actor.menu:
+            options = []
+            for i in self.items:
+                options.append( (i.name,self.action_pickitem,(actor,i)) )
+            actor.menu.setup(options)
+    def action_pickitem(self,actor,item):
+        actor.items.append(item)
+        self.items.remove(item)
+    def collide_point(self,point,flags=None):
+        if point[0]>=self.pos[0] and point[0]<=self.right and point[1]>=self.pos[1] and point[1]<=self.bottom:
+            return self
         
 class TileLayer(Agent):
     def init(self):
@@ -49,6 +81,7 @@ class TileMap(Agent):
         self.tile_properties = {}
         self.regions = {}
         self.warps = []
+        self.frobers = []
         self.destinations = {}
         for tileset_raw in self.raw_map.tile_sets:
             props = {}
@@ -110,23 +143,36 @@ class TileMap(Agent):
                 self.warps.append({"rect":r,"map":map,"warptarget":target})
             elif "destination" in o.properties:
                 self.destinations[o.properties["destination"]] = r
-    def collide(self,agent):
+            elif "chest" in o.properties:
+                f = Frober()
+                f.pos = [r.left,r.top]
+                f.right,f.bottom = r.right,r.bottom
+                for p in o.properties:
+                    setattr(f,p,o.properties[p])
+                f.init_properties()
+                self.frobers.append(f)
+    def collide(self,agent,flags=None):
         r = agent.rect()
         for point in ([r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]):
-            col = self.collide_point(point)
+            col = self.collide_point(point,flags)
             if col:
                 return col
-    def collide_point(self,point):
+    def collide_point(self,point,flags=None):
             x,y = [i//32 for i in point]
             if x<0 or y<0 or x>=self.map_width or y>=self.map_height:
                 return Tile()
             col = 0
-            tile = self.collisions[y][x].collide_point(point)
-            if tile:
-                return tile
-            for warp in self.warps:
-                r = warp["rect"]
-                if point[0]>=r.left and point[0]<=r.right and point[1]>=r.top and point[1]<=r.bottom:
-                    return warp
+            if flags=="move":
+                tile = self.collisions[y][x].collide_point(point,flags)
+                if tile:
+                    return tile
+                for warp in self.warps:
+                    r = warp["rect"]
+                    if point[0]>=r.left and point[0]<=r.right and point[1]>=r.top and point[1]<=r.bottom:
+                        return warp
+            if flags=="frobme":
+                for frober in self.frobers:
+                    if frober.collide_point(point,flags):
+                        return frober
     def get_sprites(self):
         return [layer for layer in self.map]
